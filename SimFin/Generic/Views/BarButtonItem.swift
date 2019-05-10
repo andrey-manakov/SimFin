@@ -14,21 +14,16 @@ internal final class BarButtonItem: UIBarButtonItem {
         }
     }
 
-    internal convenience init(title: String, action: (() -> Void)?) {
+    internal convenience init(_ title: String, _ action: (() -> Void)?) {
         let barButton = UIButton(frame: .zero)
         barButton.sizeToFit()
         barButton.setTitle(title, for: UIControl.State.normal)
-        barButton.setTitleColor(.blue, for: .normal)
+        barButton.setTitleColor(barButton.tintColor, for: .normal)
         barButton.setTitleColor(.lightGray, for: .selected)
         self.init(customView: barButton)
         self.tapAction = action
         barButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         self.action = #selector(didTap)
-    }
-
-    internal convenience init(_ systemItem: UIBarButtonItem.SystemItem, action: (() -> Void)?) {
-        self.init(barButtonSystemItem: systemItem, target: nil, action: #selector(didTap))
-        self.tapAction = action
     }
 
     override private init() {

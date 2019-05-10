@@ -1,12 +1,12 @@
 import UIKit
 
-protocol AccountTableViewProtocol: TableViewProtocol {
+protocol AccountTableViewProtocol: TableViewWithSwipeProtocol {
     var localData: DataModelProtocol? { get set }
 
     func reloadData()
 }
 
-class AccountsTableView: TableView, AccountTableViewProtocol {
+class AccountsTableView: TableViewWithSwipe, AccountTableViewProtocol {
     override init() {
         super.init()
         register(AccountCell.self, forCellReuseIdentifier: AccountCell.self.description())
@@ -23,7 +23,9 @@ class AccountsTableView: TableView, AccountTableViewProtocol {
                 return UITableViewCell()
         }
         cell.textLabel?.text = "\((data[indexPath].texts[.name] ?? "") ?? "")"
+        cell.textLabel?.accessibilityIdentifier = cell.textLabel?.text
         cell.detailTextLabel?.text = "\((data[indexPath].texts[.desc] ?? "") ?? "")"
+        cell.detailTextLabel?.accessibilityIdentifier = "amount"
         return cell as? AccountCell ?? UITableViewCell()
     }
 }

@@ -1,14 +1,22 @@
 import Foundation
 internal class TransactionDetailService: ClassService {
-    func save(_ transaction: Transaction?) -> Bool {
-        if let transaction = transaction {
-            return type(of: (data.add(transaction: transaction))) == String.self
-        } else {
-            return false
+    func save(_ transaction: FinTransaction?) {
+        guard let transaction = transaction else {
+            return
         }
+        data.save(transaction: transaction) {
+            print("")
+        }
+//
+//        if let id = transaction.id {
+//            return type(of: (data.add(transaction: transaction))) == String.self
+//        } else {
+//            return type(of: (data.add(transaction: transaction))) == String.self
+//        }
+
     }
 
-    func getTransactionData(transaction: Transaction, item: TransactionItem) -> String? {
+    func getTransactionData(transaction: FinTransaction, item: TransactionItem) -> String? {
         switch item {
         case .from:
             guard let from = transaction.from else {
@@ -28,5 +36,9 @@ internal class TransactionDetailService: ClassService {
         case .description:
             return transaction.description ?? ""
         }
+    }
+
+    func getFinTrasnsaction(withId id: FinTransactionId) -> FinTransaction? {
+        return Data.shared.transactions[id]
     }
 }

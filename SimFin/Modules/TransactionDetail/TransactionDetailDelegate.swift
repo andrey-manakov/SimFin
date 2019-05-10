@@ -2,12 +2,12 @@ import UIKit
 
 protocol TransactionDetailDelegateProtocol {
     var transactionItems: [TransactionItem] { get set }
-    var transaction: Transaction? { get set }
+    var transaction: FinTransaction? { get set }
 }
 
 internal final class TransactionDetailDelegate: NSObject, UITableViewDelegate, TransactionDetailDelegateProtocol {
     internal var transactionItems = [TransactionItem]()
-    internal var transaction: Transaction?
+    internal var transaction: FinTransaction?
 
     deinit {
         print("\(type(of: self)) deinit")

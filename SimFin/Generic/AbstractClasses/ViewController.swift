@@ -14,6 +14,7 @@ internal protocol ViewControllerProtocol: AnyObject {
     func push(_ viewController: UIViewController)
     /// Resigns first responders text fields
     func endEditing(force: Bool)
+    func reload()
 }
 
 extension ViewControllerProtocol {
@@ -110,5 +111,8 @@ internal class ViewController: UIViewController, ViewControllerProtocol {
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
+    }
+
+    func reload() {
     }
 }

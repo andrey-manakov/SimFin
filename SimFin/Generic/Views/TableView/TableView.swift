@@ -1,7 +1,10 @@
 import UIKit
 
 protocol TableViewProtocol {
+    var localData: DataModelProtocol? { get set }
     var didSelect: ((_ row: DataModelRowProtocol, _ ix: IndexPath) -> Void)? { get set }
+
+    func reloadData()
 }
 
 /// Abstract Class used for all TableViews

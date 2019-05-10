@@ -28,4 +28,14 @@ extension TransactionDetailVC: UITableViewDelegate {
             break
         }
     }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        switch transactionItems[indexPath.row] {
+        case .amount:
+            dataSource?.setAmountTextFieldFirstResponder()
+
+        default:
+            break
+        }
+    }
 }

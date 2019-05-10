@@ -24,7 +24,4 @@ internal final class TransactionDetailTableView: UITableView, TransactionDetailT
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
-    //    func test() {
-//        register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellReuseIdentifier: <#T##String#>)
-//    }
 }

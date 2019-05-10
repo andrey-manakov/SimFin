@@ -7,6 +7,7 @@ protocol TransactionDetailDataSourceProtocol {
     var actionOnAmountUpdate: ((Int) -> Void)? { get set }
 
     func setAmountTextFieldFirstResponder()
+    func resignAmountTextFieldFirstResponder()
 }
 
 class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionDetailDataSourceProtocol {
@@ -89,6 +90,10 @@ class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionD
         _ = amountTextField.becomeFirstResponder()
     }
 
+    func resignAmountTextFieldFirstResponder() {
+        _ = amountTextField.resignFirstResponder()
+    }
+
 //    private func dateSelectionCell(_ tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
 //        guard var cell: DateSelectionCellProtocol =
 //            tableView.dequeueReusableCell(
@@ -108,7 +113,9 @@ class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionD
 
 extension TransactionDetailDataSource: UITextFieldDelegate {
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.selectAll(nil)
+        if textField.text == "0" {
+            textField.text = ""
+        }
     }
     internal func textFieldDidEndEditing(_ textField: UITextField) {
         print("end editing")
