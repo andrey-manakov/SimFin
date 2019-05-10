@@ -1,0 +1,208 @@
+disabled_rules: # rule identifiers to exclude from running
+ # - large_tuple
+ - todo
+ - function_parameter_count
+ - nesting
+ - function_body_length
+ - line_length
+opt_in_rules:
+ - anyobject_protocol
+ - array_init
+ - attributes
+ - closure_body_length
+ - closure_end_indentation
+ - closure_spacing
+ - collection_alignment
+ - conditional_returns_on_newline
+ - contains_over_first_not_nil
+ - convenience_type
+ - discouraged_object_literal
+ - discouraged_optional_boolean
+ - discouraged_optional_collection
+ - empty_count
+ - empty_string
+ - empty_xctest_method
+ # - explicit_acl
+ # - explicit_enum_raw_value
+ - explicit_init
+ # - explicit_top_level_acl
+ # - explicit_type_interface
+ - extension_access_modifier
+ - fallthrough
+ - fatal_error_message
+ - file_header
+ - file_name
+ - first_where
+ # - force_unwrapping
+ - function_default_parameter_at_end
+ - identical_operands
+ - implicit_return
+ # - implicitly_unwrapped_optional
+ - joined_default_parameter
+ - legacy_random
+ - let_var_whitespace
+ - literal_expression_end_indentation
+ - lower_acl_than_parent
+ - missing_docs
+ - modifier_order
+ # - multiline_arguments
+ # - multiline_arguments_brackets
+ # - multiline_function_chains
+ # - multiline_literal_brackets
+ # - multiline_parameters
+ # - multiline_parameters_brackets
+ - nimble_operator
+ - no_extension_access_modifier
+ # - no_grouping_extension
+ - number_separator
+ - object_literal
+ - operator_usage_whitespace
+ - overridden_super_call
+ - override_in_extension
+ - pattern_matching_keywords
+ - prefixed_toplevel_constant
+ - private_action
+ - private_outlet
+ - prohibited_interface_builder
+ - prohibited_super_call
+ - quick_discouraged_call
+ - quick_discouraged_focused_test
+ - quick_discouraged_pending_test
+ - redundant_nil_coalescing
+ - redundant_type_annotation
+ - required_enum_case
+ - single_test_class
+ - sorted_first_last
+ - sorted_imports
+ - static_operator
+ - strict_fileprivate
+ - switch_case_on_newline
+ - toggle_bool
+ - trailing_closure
+ - unavailable_function
+ - unneeded_parentheses_in_closure_argument
+ - untyped_error_in_catch
+ # - vertical_parameter_alignment_on_call
+ - vertical_whitespace_between_cases
+ - vertical_whitespace_closing_braces
+ - vertical_whitespace_opening_braces
+ - yoda_condition
+analyzer_rules:
+  - unused_import
+  - unused_private_declaration
+  - explicit_self
+cyclomatic_complexity:
+  ignores_case_statements: true
+included: # paths to include during linting. `--path` is ignored if present.
+#  - Source
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - build
+  - docs
+  - Firebase
+  - Capital/Documentation
+#  - Carthage
+#  - Pods
+#  - Source/ExcludedFolder
+#  - Source/ExcludedFile.swift
+#  - Source/*/ExcludedFile.swift # Exclude files with a wildcard
+analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
+  - explicit_self
+  - unused_import
+  - unused_private_declaration
+file_name:
+  suffix_pattern: "Extensions?|\\+.*"
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length:
+  warning: 120
+  error: 200
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+# they can set both implicitly with an array
+type_body_length:
+  - 300 # warning
+  - 400 # error
+# or they can set both explicitly
+file_length:
+  warning: 500
+  error: 1200
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+type_name:
+  min_length: 3 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: 
+   - iPhone # excluded via string
+   - To
+
+identifier_name:
+  min_length: # only min_length
+    error: 3 # only error
+  excluded: # excluded via string array
+    - x
+    - i
+    - id
+    - up
+    - ix
+    - to
+    - row
+    - URL
+    - GlobalAPIKey
+
+attributes:
+  always_on_line_above:
+    - "@nonobjc"
+    - "@available"
+    - "@discardableResult"
+  always_on_same_line:
+    - "@objc"
+    - "@IBOutlet"
+    - "@IBAction"
+    - "@NSManaged"
+    - "@testable"
+
+object_literal:
+  image_literal: false
+
+large_tuple:
+  warning: 3 # it was 2 initially
+  error: 4
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)
+
+custom_rules:
+  rule_id:
+    included: Source/SwiftLintFramework/Rules/.+/\w+\.swift
+    name: Rule ID
+    message: Rule IDs must be all lowercase, snake case and not end with `rule`
+    regex: identifier:\s*("\w+_rule"|"\S*[^a-z_]\S*")
+    severity: error
+  # fatal_error:
+  #   name: Fatal Error
+  #   excluded: "Tests/*"
+  #   message: Prefer using `queuedFatalError` over `fatalError` to avoid leaking compiler host machine paths.
+  #   regex: \bfatalError\b
+  #   match_kinds:
+  #     - identifier
+  #   severity: error
+  rule_test_function:
+    included: Tests/SwiftLintFrameworkTests/RulesTests.swift
+    name: Rule Test Function
+    message: Rule Test Function mustn't end with `rule`
+    regex: func\s*test\w+(r|R)ule\(\)
+    severity: error
+  discouraged_image_literal:
+    name: "Discouraged Image Literal"
+    regex: "#imageLiteral"
+    message: "Please use UIImage(named:) instead"
+    severity: warning
+

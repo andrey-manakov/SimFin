@@ -1,0 +1,40 @@
+
+module: Capital
+author: Andrey Manakov
+#author_url: http://bustoutsolutions.com
+github_url: https://github.com/andrey-manakov/Capital
+clean: true
+min_acl: private
+# output: docs/app
+documentation: Capital/Documentation/*.md
+copyright: '© 2018'
+#swift_version: 4.1.2
+theme: fullwidth
+custom_categories:
+  - name: Model
+    children:
+    - Tasks
+    - FinTransaction
+    - Account
+    - AccountGroup
+    - AccountType
+    - DataObject
+    - Direction
+    - RecurrenceFrequency
+
+
+# {
+#     "min_acl": "private",
+#     "output": "docs/tests",
+#     "objc": false,
+#     "clean": true,
+#     "module": "CapitalTests",
+#     "use_safe_filenames": true,
+#     "theme": "fullwidth",
+#     # "swift_version": "4.1.2",
+#     "xcodebuild_arguments": [
+#         "test",
+#         "-scheme", "Capital",
+#         "-destination", "platform=iOS Simulator,OS=12.1,name=iPhone 6s"
+#     ]
+# }

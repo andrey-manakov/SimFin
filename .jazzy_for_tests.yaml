@@ -1,0 +1,15 @@
+{
+    "min_acl": "private",
+    "output": "docs/tests",
+    "objc": false,
+    "clean": true,
+    "module": "CapitalTests",
+    "use_safe_filenames": true,
+    "theme": "fullwidth",
+    # "swift_version": "4.1.2",
+    "xcodebuild_arguments": [
+        "test",
+        "-scheme", "Capital",
+        "-destination", "platform=iOS Simulator,OS=12.1,name=iPhone 6s"
+    ]
+}
