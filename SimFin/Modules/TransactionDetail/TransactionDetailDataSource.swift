@@ -2,7 +2,7 @@ import UIKit
 
 protocol TransactionDetailDataSourceProtocol {
     var transactionItems: [TransactionItem] { get set }
-    var transactionItmesDesc: [TransactionItem: String?] { get set }
+    var transactionItemsDesc: [TransactionItem: String?] { get set }
 //    var transaction: Transaction? { get set }
     var actionOnAmountUpdate: ((Int) -> Void)? { get set }
 
@@ -12,9 +12,10 @@ protocol TransactionDetailDataSourceProtocol {
 
 class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionDetailDataSourceProtocol {
     var transactionItems = [TransactionItem]()
-    var transactionItmesDesc = [TransactionItem: String?]()
+    var transactionItemsDesc = [TransactionItem: String?]()
 //    var transaction: Transaction?
     private var amountTextField: TextFieldProtocol = SimpleTextField()
+    private var descTextField: TextFieldProtocol?
     var actionOnAmountUpdate: ((Int) -> Void)?
 
     deinit {
@@ -38,26 +39,10 @@ class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionD
             cell = inputAmountCell(tableView, at: indexPath)
 
         case .description:
-            cell = leftRightCell(tableView, at: indexPath)
+            cell = inputTextCell(tableView, at: indexPath)
         }
         return cell
     }
-
-//    private func getValue(of transactionItem: TransactionItem) -> String? {
-//        switch transactionItem {
-//        case .from:
-//            return transaction?.from
-//
-//        case .to:
-//            return transaction?.to
-//
-//        case .amount:
-//            return "\(transaction?.amount ?? 0)"
-//
-//        case .description:
-//            return transaction?.description
-//        }
-//    }
 
     private func leftRightCell(_ tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         guard let cell: LeftRightCellProtocol =
@@ -67,8 +52,22 @@ class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionD
         }
         let transactionItem = transactionItems[indexPath.row]
         cell.textLabel?.text = transactionItem.rawValue
-        cell.detailTextLabel?.text = transactionItmesDesc[transactionItem] ?? "" // getValue(of: transactionItems[indexPath.row])
+        cell.detailTextLabel?.text = transactionItemsDesc[transactionItem] ?? "" // getValue(of: transactionItems[indexPath.row])
         cell.detailTextLabel?.textColor = .red
+        return cell as? UITableViewCell ?? UITableViewCell()
+    }
+
+    private func inputTextCell(_ tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        guard let cell: InputTextCellProtocol =
+            tableView.dequeueReusableCell(
+                withIdentifier: InputTextCell.self.description()) as? InputTextCell else {
+                    return UITableViewCell()
+        }
+        let transactionItem = transactionItems[indexPath.row]
+        cell.textLabel?.text = transactionItem.rawValue
+        descTextField = cell.textField
+        cell.textField.delegate = self
+        descTextField?.text = transactionItemsDesc[transactionItem] ?? ""
         return cell as? UITableViewCell ?? UITableViewCell()
     }
 
@@ -82,7 +81,7 @@ class TransactionDetailDataSource: NSObject, UITableViewDataSource, TransactionD
         cell.textLabel?.text = transactionItem.rawValue
         amountTextField = cell.amountTextField
         cell.amountTextField.delegate = self
-        amountTextField.text = transactionItmesDesc[transactionItem] ?? ""
+        amountTextField.text = transactionItemsDesc[transactionItem] ?? ""
         return cell as? UITableViewCell ?? UITableViewCell()
     }
 

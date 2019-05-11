@@ -13,6 +13,7 @@ internal final class TransactionDetailTableView: UITableView, TransactionDetailT
         super.init(frame: .zero, style: .plain)
         register(LeftRightCell.self, forCellReuseIdentifier: LeftRightCell.self.description())
         register(InputAmountCell.self, forCellReuseIdentifier: InputAmountCell.self.description())
+        register(InputTextCell.self, forCellReuseIdentifier: InputTextCell.self.description())
     }
 
     convenience init(_ dataSource: TransactionDetailDataSourceProtocol?, _ delegate: UITableViewDelegate?) {

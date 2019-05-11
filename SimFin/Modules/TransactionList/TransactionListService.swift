@@ -20,4 +20,8 @@ internal final class TransactionListService: ClassService {
         Data.shared.delete(transactionWithId: id, completion: completion)
         completion?()
     }
+
+    func logOut(completion: ((Error?) -> Void)? = nil) {
+        data.signOut(completion)
+    }
 }

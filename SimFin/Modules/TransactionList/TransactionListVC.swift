@@ -7,6 +7,15 @@ internal final class TransactionListVC: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Transaction List"
+        navigationItem.leftBarButtonItem = BarButtonItem("Log Out") { [unowned self] in
+            self.service.logOut { [unowned self] err in
+                if let err = err {
+                    print(err.localizedDescription)
+                } else {
+                    self.dismiss(animated: true) {}
+                }
+            }
+        }
         navigationItem.rightBarButtonItem = BarButtonItem("Add") { [unowned self] in
             let doneAction = {
                 self.reload()

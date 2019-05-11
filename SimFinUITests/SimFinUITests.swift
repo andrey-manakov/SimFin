@@ -27,6 +27,10 @@ internal class SimFinUITests: XCTestCase {
     }
 
     internal func testCreateTransaction() {
+        // Log out Log in
+        XCTAssert(logOut())
+        XCTAssert(logIn())
+
         // Create three accounts and three transactions
         XCTAssert(createAccountsAndTransaction(amounts[0], from: accountNames[0], fromType: types[0], to: accountNames[1], toType: types[1]))
         XCTAssert(createAccountsAndTransaction(amounts[1], from: accountNames[1], fromType: types[1], to: accountNames[2], toType: types[2]))
@@ -56,6 +60,29 @@ internal class SimFinUITests: XCTestCase {
         // Clean accounts
         XCTAssert(deleteAccount(accountNames[1]))
         XCTAssert(deleteAccount(accountNames[2]))
+
+        // Logout
+        XCTAssert(logOut())
+    }
+
+    private func logOut() -> Bool {
+        if app.navigationBars["Transaction List"].exists {
+            app.navigationBars["Transaction List"].buttons["Log Out"].tap()
+        }
+        return app.staticTexts["CAPITAL"].exists
+    }
+
+    private func logIn() -> Bool {
+        guard app.staticTexts["CAPITAL"].exists else {
+            return false
+        }
+        app.textFields["loginTextField"].tap()
+        tap("test@mail.ru")
+        app.secureTextFields["passwordTextField"].tap()
+        tap("friend")
+        app.buttons["Sign In"].tap()
+//        print(app.descendants(matching: .any).debugDescription)
+        return app.navigationBars["Transaction List"].waitForExistence(timeout: 10)
     }
 
     private func deleteAccount(_ name: String) -> Bool {

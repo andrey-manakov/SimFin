@@ -5,7 +5,13 @@ extension Data {
         let id = self.id
         let account = Account(id: id, name: name, type: type, amount: 0)
         accounts[id] = account
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data)
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
+            if let err = err {
+                print(err)
+            } else {
+                print("Account successfully created")
+            }
+        }
         return id
     }
     func updateAccount(id: String, name: String) {

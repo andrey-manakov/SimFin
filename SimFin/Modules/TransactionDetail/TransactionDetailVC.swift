@@ -3,7 +3,7 @@ import UIKit
 internal final class TransactionDetailVC: ViewController {
     /// Array of transaction detail items
     internal var service = TransactionDetailService()
-    internal var transactionItems: [TransactionItem] = [.amount, .from, .to, .description]
+    internal var transactionItems: [TransactionItem] = [.amount, .from, .to]
     internal var transaction: FinTransaction?
     internal var transactionItemsDesc: [TransactionItem: String?] {
         let sequence = self.transactionItems.map { ($0, self.service.getTransactionData(transaction: self.transaction ?? FinTransaction(), item: $0)) }
@@ -45,7 +45,7 @@ internal final class TransactionDetailVC: ViewController {
     override func reload() {
         super.reload()
         dataSource?.transactionItems = transactionItems
-        dataSource?.transactionItmesDesc = transactionItemsDesc
+        dataSource?.transactionItemsDesc = transactionItemsDesc
         table.reloadData()
     }
 }
