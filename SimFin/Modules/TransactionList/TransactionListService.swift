@@ -10,6 +10,7 @@ internal final class TransactionListService: ClassService {
                 .down: data.getAccountName(id: $0.to),
                 .right: "\($0.amount ?? 0)"])
         }
+        print(rows.count)
         return DataModel(rows)
     }
 

@@ -2,7 +2,6 @@ import Foundation
 
 internal final class AccountDetailService: ClassService {
     func saveAccount(id: String?  = nil, name: String? = nil, type: AccountType? = nil) {
-        print("implementation is needed")
         guard let name = name, let type = type else {
             return
         }

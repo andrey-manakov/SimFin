@@ -38,9 +38,11 @@ extension FinTransaction: DataObjectProtocol {
     ///
     /// - Parameter data: data as it is stored in FireStore
     init(_ data: [String: Any]) {
+        print("preinit \(data["to"] ?? "") \(data["amount"] ?? "")")
         for (key, value) in data {
             update(field: key, value: value)
         }
+        print("init \(self.to ?? "") \(self.amount ?? 0)")
     }
 
     // MARK: - Methods
@@ -63,12 +65,13 @@ extension FinTransaction: DataObjectProtocol {
 
         case .to:
             self.to = value as? String
+            print("self \(self)")
 
         case .amount:
             self.amount = value as? Int
 
         case .description:
-            self.to = value as? String
+            self.description = value as? String
 
         case .date:
             self.date = (value as? Timestamp)?.dateValue()

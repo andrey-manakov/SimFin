@@ -1,7 +1,7 @@
 /// View controller for sign in / sign up, is shown after app installed and launched for the first time
 internal final class LoginVC: ViewController {
     /// /// Service of view controller to perform actions on data
-    private let service = Service()
+    private let service = LoginService()
     /// Text field for login
     private let loginTextField: TextFieldProtocol = EmailField("email")
     /// Text field for password
@@ -56,7 +56,9 @@ internal final class LoginVC: ViewController {
     private func setListners() {
         service.listenToAuthUpdates {[unowned self] user in
             if user != nil {
-                self.present(NavigationController(TransactionListVC()), animated: true)
+//                self.present(NavigationController(TransactionListVC()), animated: true)
+                self.present(TabBarController())
+                self.service.loadData()
             } else {
                 print("User is nil")
             }
@@ -70,48 +72,4 @@ internal final class LoginVC: ViewController {
 }
 /// Extension to provide view controller with service class
 extension LoginVC {
-    /// Service class for `LoginVC`
-    private class Service: ClassService {
-        /// Sets listners to authorisation events, to trigger enter after database sends event of successful login
-        ///
-        /// - Parameter action: perform action after successfuk login
-        func listenToAuthUpdates(withAction action: ((String?) -> Void)?) {
-            // TODO: don't call Firebase directly
-            FIRAuth.shared.getUpdatedUserInfo[ObjectIdentifier(self)] = action
-        }
-
-        /// Performs sign in
-        ///
-        /// - Parameters:
-        ///   - login: login value
-        ///   - password: password value
-        ///   - completion: action to perform after sign in
-        func didTapSignIn(
-            withLogin login: String?,
-            andPassword password: String?,
-            completion: ((Error?) -> Void)? = nil
-            ) {
-            guard let lgn = login, let pwd = password else {
-                return
-            }
-            Data.shared.signInUser(withEmail: lgn, password: pwd, completion: completion)
-        }
-
-        /// Performs sign up
-        ///
-        /// - Parameters:
-        ///   - login: login value
-        ///   - password: password value
-        ///   - completion: action to perform after sign up
-        func didTapSignUp(
-            withLogin login: String?,
-            andPassword password: String?,
-            completion: ((Error?) -> Void)? = nil
-            ) {
-            guard let lgn = login, let pwd = password else {
-                return
-            } // TODO: consider use UIAlertVC
-            Data.shared.signUpUser(withEmail: lgn, password: pwd, completion: completion)
-        }
-    }
 }

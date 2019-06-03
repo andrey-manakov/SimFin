@@ -36,16 +36,16 @@ internal final class FIRAuth: FireAuthProtocol {
                 completion?(error)
             } else {
                 // FIXME: update through fs object
-                if let user = Auth.auth().currentUser?.uid {
-                    Firestore.firestore().document("users/\(user)").setData(
-                    ["email": email, "password": pwd]) { error in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        } else {
-                            print("email and password are saved user record")
-                        }
-                    }
-                }
+//                if let user = Auth.auth().currentUser?.uid {
+//                    Firestore.firestore().document("users/\(user)").setData(
+//                    ["email": email, "password": pwd]) { error in
+//                        if let error = error {
+//                            print(error.localizedDescription)
+//                        } else {
+//                            print("email and password are saved user record")
+//                        }
+//                    }
+//                }
             }
         }
     }

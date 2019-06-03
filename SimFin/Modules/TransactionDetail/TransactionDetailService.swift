@@ -7,13 +7,6 @@ internal class TransactionDetailService: ClassService {
         data.save(transaction: transaction) {
             print("")
         }
-//
-//        if let id = transaction.id {
-//            return type(of: (data.add(transaction: transaction))) == String.self
-//        } else {
-//            return type(of: (data.add(transaction: transaction))) == String.self
-//        }
-
     }
 
     func getTransactionData(transaction: FinTransaction, item: TransactionItem) -> String? {

@@ -1,6 +1,6 @@
 class AccountListService: ClassService {
-    func getData() -> DataModelProtocol {
-        let rows = data.getAccounts().map {
+    func getData(forAccountType accountType: AccountType) -> DataModelProtocol {
+        let rows = data.getAccounts(ofType: accountType).map {
             DataModelRow(id: $0.id, texts: [.name: $0.name ?? "", .desc: "\($0.amount ?? 0)"])
         }
         return DataModel(rows)

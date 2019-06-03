@@ -13,6 +13,7 @@
 		C10EDC4422773E12006FA7E7 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC4322773E12006FA7E7 /* SegmentedControl.swift */; };
 		C10EDC462277B319006FA7E7 /* AccountDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC452277B319006FA7E7 /* AccountDetailService.swift */; };
 		C10EDC482277B883006FA7E7 /* TransactionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC472277B883006FA7E7 /* TransactionListService.swift */; };
+		C1172F3122A237DB008B0D58 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1172F3022A237DB008B0D58 /* TabBarController.swift */; };
 		C11B160C22834D410053B365 /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B15F822834D410053B365 /* BoringSSL.framework */; };
 		C11B160D22834D410053B365 /* FIRAnalyticsConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B15F922834D410053B365 /* FIRAnalyticsConnector.framework */; };
 		C11B160E22834D410053B365 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B15FB22834D410053B365 /* FirebaseAnalytics.framework */; };
@@ -59,6 +60,7 @@
 		C1659A472261FB4000B964D3 /* DataModelRowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1659A422261FB4000B964D3 /* DataModelRowExtension.swift */; };
 		C16D7C132266D23600DB8AC6 /* LeftRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16D7C122266D23600DB8AC6 /* LeftRightCell.swift */; };
 		C16D7C162266D3E200DB8AC6 /* FinTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16D7C152266D3E200DB8AC6 /* FinTransaction.swift */; };
+		C17170DB2286E244005472ED /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17170DA2286E244005472ED /* LoginService.swift */; };
 		C17BFEB82268FD2100DA32C7 /* InputAmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BFEB72268FD2100DA32C7 /* InputAmountCell.swift */; };
 		C17BFEBA2268FD4C00DA32C7 /* DateSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BFEB92268FD4C00DA32C7 /* DateSelectionCell.swift */; };
 		C17BFEBC2268FD7A00DA32C7 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BFEBB2268FD7A00DA32C7 /* DatePicker.swift */; };
@@ -127,6 +129,7 @@
 		C10EDC4322773E12006FA7E7 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		C10EDC452277B319006FA7E7 /* AccountDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailService.swift; sourceTree = "<group>"; };
 		C10EDC472277B883006FA7E7 /* TransactionListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListService.swift; sourceTree = "<group>"; };
+		C1172F3022A237DB008B0D58 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C11B15F822834D410053B365 /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BoringSSL.framework; sourceTree = "<group>"; };
 		C11B15F922834D410053B365 /* FIRAnalyticsConnector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FIRAnalyticsConnector.framework; sourceTree = "<group>"; };
 		C11B15FB22834D410053B365 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseAnalytics.framework; sourceTree = "<group>"; };
@@ -182,6 +185,7 @@
 		C1659A422261FB4000B964D3 /* DataModelRowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModelRowExtension.swift; sourceTree = "<group>"; };
 		C16D7C122266D23600DB8AC6 /* LeftRightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftRightCell.swift; sourceTree = "<group>"; };
 		C16D7C152266D3E200DB8AC6 /* FinTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinTransaction.swift; sourceTree = "<group>"; };
+		C17170DA2286E244005472ED /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		C17BFEB72268FD2100DA32C7 /* InputAmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAmountCell.swift; sourceTree = "<group>"; };
 		C17BFEB92268FD4C00DA32C7 /* DateSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectionCell.swift; sourceTree = "<group>"; };
 		C17BFEBB2268FD7A00DA32C7 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
@@ -268,6 +272,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C1172F3222A23821008B0D58 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				C1172F3022A237DB008B0D58 /* TabBarController.swift */,
+			);
+			path = TabBarController;
+			sourceTree = "<group>";
+		};
 		C11B15F722834D410053B365 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +439,15 @@
 			path = TransactionDetail;
 			sourceTree = "<group>";
 		};
+		C17170DC2286E264005472ED /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C19D6CD722836F7E005549EA /* LoginVC.swift */,
+				C17170DA2286E244005472ED /* LoginService.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		C17BFECB2268FE1000DA32C7 /* TextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -525,11 +546,12 @@
 		C1CB037022630FFB0041EB3D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				C1172F3222A23821008B0D58 /* TabBarController */,
 				C1AB3B4522690B0300C50A69 /* TransactionList */,
 				C16D7C172266D61700DB8AC6 /* TransactionDetail */,
 				C1920BDC226B5DA8000C597B /* AccountList */,
 				C1920BE3226B5F35000C597B /* AccountDetail */,
-				C19D6CD722836F7E005549EA /* LoginVC.swift */,
+				C17170DC2286E264005472ED /* Login */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -743,6 +765,7 @@
 				C147928922813B6F00C366D5 /* DateFormatterExtension.swift in Sources */,
 				C19D6CD122836072005549EA /* FireStoreGettersProtocol.swift in Sources */,
 				C17BFEBA2268FD4C00DA32C7 /* DateSelectionCell.swift in Sources */,
+				C17170DB2286E244005472ED /* LoginService.swift in Sources */,
 				C1659A3A2261FA8300B964D3 /* TransactionsTableView.swift in Sources */,
 				C14ACBBE22678F91000C9746 /* TransactionDetailDataSource.swift in Sources */,
 				C19D6CCD22836072005549EA /* DataObjectType.swift in Sources */,
@@ -769,6 +792,7 @@
 				C19D6CD022836072005549EA /* FireStoreData.swift in Sources */,
 				C19D6CD6228361FF005549EA /* DataObjectProtocol.swift in Sources */,
 				C1659A442261FB4000B964D3 /* CellStyle.swift in Sources */,
+				C1172F3122A237DB008B0D58 /* TabBarController.swift in Sources */,
 				C17BFEC62268FE0900DA32C7 /* TextFieldProtocol.swift in Sources */,
 				C17BFEC72268FE0900DA32C7 /* EmailField.swift in Sources */,
 				C1659A372261C2F600B964D3 /* TableView.swift in Sources */,
@@ -977,7 +1001,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimFin/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1001,7 +1025,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimFin/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

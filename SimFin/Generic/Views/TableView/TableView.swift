@@ -3,6 +3,7 @@ import UIKit
 protocol TableViewProtocol {
     var localData: DataModelProtocol? { get set }
     var didSelect: ((_ row: DataModelRowProtocol, _ ix: IndexPath) -> Void)? { get set }
+    var filter: ((DataModelRowProtocol) -> (Bool))? { get set }
 
     func reloadData()
 }

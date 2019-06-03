@@ -22,27 +22,14 @@ internal final class AccountDetailVC: ViewController {
         navigationItem.rightBarButtonItem = BarButtonItem("Done") { [unowned self, service] in
             if let accountName = accountNameTextField.text {
                 service.saveAccount(id: nil, name: accountName, type: AccountType(rawValue: types[segmentedControl.selectedSegmentIndex]))
-                print(Data.shared.accounts)
             }
             self.dismiss()
             if let doneAction = self.data as? () -> Void {
                 doneAction()
             }
         }
-
-//        let doneButton: ButtonProtocol = Button(name: "Done") {[unowned self] in
-//            if let accountName = accountNameTextField.text {
-//                service.saveAccount(id: nil, name: accountName, type: AccountType(rawValue: types[segmentedControl.selectedSegmentIndex]))
-//                print(Data.shared.accounts)
-//            }
-//            self.dismiss()
-//            if let doneAction = self.data as? () -> Void {
-//                doneAction()
-//            }
-//        }
-        view.add(view: segmentedControl as? UIView, withConstraints: ["H:|-30-[v]-30-|", "V:|-150-[v(30)]"])
-        view.add(view: accountNameTextField as? UIView, withConstraints: ["H:|-30-[v]-30-|", "V:|-200-[v(30)]"])
+        view.add(view: segmentedControl as? UIView, withConstraints: ["H:|-30-[v]-30-|", "V:|-80-[v(30)]"])
+        view.add(view: accountNameTextField as? UIView, withConstraints: ["H:|-30-[v]-30-|", "V:|-130-[v(30)]"])
         _ = accountNameTextField.becomeFirstResponder()
-//        view.add(view: doneButton as? UIView, withConstraints: ["H:|-40-[v]-40-|", "V:|-300-[v(50)]"])
     }
 }

@@ -4,6 +4,7 @@ internal protocol DataProtocol {
     func addAccount(_ name: String, type: AccountType) -> AccountId
     func updateAccount(id: String, name: String)
     func getAccounts() -> [Account]
+    func getAccounts(ofType type: AccountType) -> [Account]
     func getAccountName(id: AccountId?) -> String?
     func save(transaction: FinTransaction, completion: (() -> Void)?)
     func add(transaction: FinTransaction) -> FinTransactionId?

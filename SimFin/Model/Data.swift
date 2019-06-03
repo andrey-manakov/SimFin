@@ -8,16 +8,7 @@ internal class Data: DataProtocol {
     var id: String { return UUID().uuidString }
     private let fireAuth: FireAuthProtocol? = FIRAuth.shared
 
-    private init() {
-        FIRAccountManager.shared.loadAll { accounts in
-            self.accounts = accounts
-            UIApplication.topViewController()?.reload()
-        }
-        FIRFinTransactionManager.shared.loadAll { transactions in
-            self.transactions = transactions
-            UIApplication.topViewController()?.reload()
-        }
-    }
+    private init() {}
 }
 
 // MARK: - Sign In, Sign Out

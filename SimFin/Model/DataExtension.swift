@@ -20,30 +20,24 @@ extension Data {
     func getAccounts() -> [Account] {
         return Array(accounts.values)
     }
+    func getAccounts(ofType type: AccountType) -> [Account] {
+        return Array(accounts.values).filter { $0.type == type }
+    }
     func getAccountName(id: AccountId?) -> String? {
         guard let id = id else {
             return nil
         }
         return accounts[id]?.name
     }
-
     func save(transaction: FinTransaction, completion: (() -> Void)? = nil) {
+        // FIXME: Add completion
         guard let id = transaction.id else {
             _ = add(transaction: transaction)
             return
         }
         delete(transactionWithId: id)
         _ = add(transaction: transaction)
-//        transactions[id] = transaction
-//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").setData(transaction.data, merge: true) { err in
-//            if let err = err {
-//                fatalError(err.localizedDescription)
-//            } else {
-//                completion?()
-//            }
-//        }
     }
-
     func add(transaction: FinTransaction) -> FinTransactionId? {
         let id = self.id
         // FIXME: check with guard
@@ -52,16 +46,13 @@ extension Data {
         }
         let transaction = FinTransaction(id: id, from: from, to: to, amount: amount, description: transaction.description, date: transaction.date ?? Date())
         transactions[id] = transaction
-//        FIRFinTransactionManager.shared.create(transaction) { _ in }
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").setData(transaction.data)
         let fromAmount = (accounts[from]?.amount ?? 0) - amount
         accounts[from]?.amount = fromAmount
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true)
-//        FIRAccountManager.shared.updateAccount(withId: from, amount: fromAmount - amount) {}
         let toAmount = (accounts[to]?.amount ?? 0) + amount
         accounts[to]?.amount = toAmount
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true)
-//        FIRAccountManager.shared.updateAccount(withId: to, amount: toAmount + amount) {}
         return id
     }
     func delete(transactionWithId id: String, completion: (() -> Void)? = nil) {
