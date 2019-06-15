@@ -8,7 +8,7 @@ extension UIView {
     ///   - constraints: array of Visual Formatting strings to apply
     ///
     /// Note: func sets accessibilityIdentifier for subview equal to views dict keys
-    internal func add(views: [String: UIView?], withConstraints constraints: [String]) {
+    internal func add(views: [String: UIView?], withConstraints constraints: [String] = ["H:|[v]|", "V:|[v]|"]) {
         guard let views = views as? [String: UIView] else {
             print("error in addSubviewsWithConstraints")
             return
@@ -35,8 +35,13 @@ extension UIView {
     /// Parameters:
     /// - view: subview to add
     /// - constraints: array of Visual Formatting strings to apply
-    internal func add(view: UIView?, withConstraints constraints: [String]) {
+    internal func add(view: UIView?, withConstraints constraints: [String] = ["H:|[v]|", "V:|[v]|"]) {
         add(views: ["v": view], withConstraints: constraints)
+    }
+    internal func add(view: Any?, withConstraints constraints: [String] = ["H:|[v]|", "V:|[v]|"]) {
+        if let view = view as? UIView {
+            add(views: ["v": view], withConstraints: constraints)
+        }
     }
     /// Views dictionary with keys equal to accessibilityIdentifier
     internal var views: [String: UIView] {

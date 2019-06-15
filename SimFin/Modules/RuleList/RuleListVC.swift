@@ -1,12 +1,12 @@
 import UIKit
 
-internal final class TransactionListVC: ViewController {
-    let service = TransactionListService()
-    var table: TransactionTableViewProtocol = TransactionsTableView()
+internal final class RuleListVC: ViewController {
+    let service = RuleListService()
+    var table: RuleTableViewProtocol = RuleTableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Transactions"
+        title = "Rules"
         navigationItem.leftBarButtonItem = BarButtonItem("Log Out") { [unowned self] in
             self.service.logOut { [unowned self] err in
                 if let err = err {
@@ -16,11 +16,13 @@ internal final class TransactionListVC: ViewController {
                 }
             }
         }
+//        (rule: Rule?, doneAction: (() -> Void)?)
         navigationItem.rightBarButtonItem = BarButtonItem("Add") { [unowned self] in
             let doneAction = {
                 self.reload()
             }
-            self.push(TransactionDetailVC(doneAction))
+            let input: (ruleId: RuleId?, doneAction: (() -> Void)?) = (ruleId: nil, doneAction: doneAction)
+            self.push(RuleDetailVC(input))
         }
         reload()
         table.swipeLeftLabel = "Delete"
@@ -29,7 +31,7 @@ internal final class TransactionListVC: ViewController {
                 if let err = err {
                     print(err.localizedDescription)
                 } else {
-                    print("LOG message from \(type(of: self)): Transaction was deleted")
+                    print("LOG message from \(type(of: self)): Rule was deleted")
                     self.reload()
                 }
             }
@@ -38,7 +40,9 @@ internal final class TransactionListVC: ViewController {
             let doneAction = {
                 self.reload()
             }
-            self.push(TransactionDetailVC((row.id, doneAction)))
+            print(row)
+//            let inputData: (ruleId: RuleId?, doneAction: (() -> Void)?) = (row.id, doneAction)
+            self.push(RuleDetailVC((row.id, doneAction)))
         }
 
         view.add(view: table as? UIView, withConstraints: ["H:|[v]|", "V:|[v]|"])

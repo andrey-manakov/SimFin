@@ -1,5 +1,5 @@
 import Foundation
 
 internal enum DataObjectType: String, CaseIterable {
-    case account, transaction
+    case account, transaction, rule
 }

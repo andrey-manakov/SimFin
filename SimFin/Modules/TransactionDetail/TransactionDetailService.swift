@@ -2,10 +2,15 @@ import Foundation
 internal class TransactionDetailService: ClassService {
     func save(_ transaction: FinTransaction?) {
         guard let transaction = transaction else {
+            print("Failed to save transaction - nil input")
             return
         }
-        data.save(transaction: transaction) {
-            print("")
+        data.save(transaction: transaction) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("Transaction saved")
+            }
         }
     }
 

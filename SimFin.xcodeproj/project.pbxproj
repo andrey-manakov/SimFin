@@ -13,6 +13,12 @@
 		C10EDC4422773E12006FA7E7 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC4322773E12006FA7E7 /* SegmentedControl.swift */; };
 		C10EDC462277B319006FA7E7 /* AccountDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC452277B319006FA7E7 /* AccountDetailService.swift */; };
 		C10EDC482277B883006FA7E7 /* TransactionListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10EDC472277B883006FA7E7 /* TransactionListService.swift */; };
+		C115588122AB89C800E01C32 /* RuleDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115588022AB89C800E01C32 /* RuleDetailService.swift */; };
+		C115588322AB8B2600E01C32 /* RuleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115588222AB8B2600E01C32 /* RuleItem.swift */; };
+		C115588522AB8C1200E01C32 /* RuleDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115588422AB8C1200E01C32 /* RuleDetailDataSource.swift */; };
+		C115588722AB8F4E00E01C32 /* RuleDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115588622AB8F4E00E01C32 /* RuleDetailTableView.swift */; };
+		C115588922AB8FE000E01C32 /* RuleDetailVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115588822AB8FE000E01C32 /* RuleDetailVCExtension.swift */; };
+		C1169EF922AF5BB5000523EF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1169EF822AF5BB5000523EF /* StringExtension.swift */; };
 		C1172F3122A237DB008B0D58 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1172F3022A237DB008B0D58 /* TabBarController.swift */; };
 		C11B160C22834D410053B365 /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B15F822834D410053B365 /* BoringSSL.framework */; };
 		C11B160D22834D410053B365 /* FIRAnalyticsConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B15F922834D410053B365 /* FIRAnalyticsConnector.framework */; };
@@ -32,6 +38,14 @@
 		C11B161B22834D420053B365 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C11B160922834D410053B365 /* Protobuf.framework */; };
 		C11B161C22834D420053B365 /* gRPCCertificates-Firestore.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C11B160B22834D410053B365 /* gRPCCertificates-Firestore.bundle */; };
 		C11B161E22834F910053B365 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C11B161D22834F910053B365 /* GoogleService-Info.plist */; };
+		C124346222A843110056BB62 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346122A843110056BB62 /* Rule.swift */; };
+		C124346422AABA720056BB62 /* RepeatModeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346322AABA720056BB62 /* RepeatModeExtension.swift */; };
+		C124346622AABAA60056BB62 /* RepeatMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346522AABAA60056BB62 /* RepeatMode.swift */; };
+		C124346822AABD640056BB62 /* RuleListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346722AABD640056BB62 /* RuleListVC.swift */; };
+		C124346B22AABDA20056BB62 /* RuleListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346A22AABDA20056BB62 /* RuleListService.swift */; };
+		C124346D22AABF0E0056BB62 /* RuleDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346C22AABF0E0056BB62 /* RuleDetailVC.swift */; };
+		C124347022AABF8E0056BB62 /* RuleTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124346F22AABF8E0056BB62 /* RuleTableView.swift */; };
+		C124347222AABFA90056BB62 /* RuleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124347122AABFA90056BB62 /* RuleCell.swift */; };
 		C147928722813B3700C366D5 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147928622813B3700C366D5 /* DateExtension.swift */; };
 		C147928922813B6F00C366D5 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147928822813B6F00C366D5 /* DateFormatterExtension.swift */; };
 		C147928B228143BD00C366D5 /* TableViewWithSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C147928A228143BD00C366D5 /* TableViewWithSwipe.swift */; };
@@ -91,6 +105,8 @@
 		C19D6CD6228361FF005549EA /* DataObjectProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D6CD5228361FF005549EA /* DataObjectProtocol.swift */; };
 		C19D6CD822836F7E005549EA /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D6CD722836F7E005549EA /* LoginVC.swift */; };
 		C19D6CDA22836FB0005549EA /* AppTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D6CD922836FB0005549EA /* AppTitle.swift */; };
+		C1A9E06822ACF0EC00A93676 /* RepeatModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E06722ACF0EC00A93676 /* RepeatModeVC.swift */; };
+		C1A9E06D22ACFD0700A93676 /* RepeatModeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E06C22ACFD0700A93676 /* RepeatModeTableView.swift */; };
 		C1AB3B4722690B2500C50A69 /* AccountListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB3B4622690B2500C50A69 /* AccountListVC.swift */; };
 		C1C55CCA22837BAA002F56B1 /* FIRManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CC922837BAA002F56B1 /* FIRManagerProtocol.swift */; };
 		C1C55CCC22837C03002F56B1 /* FIRAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */; };
@@ -129,6 +145,12 @@
 		C10EDC4322773E12006FA7E7 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		C10EDC452277B319006FA7E7 /* AccountDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailService.swift; sourceTree = "<group>"; };
 		C10EDC472277B883006FA7E7 /* TransactionListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListService.swift; sourceTree = "<group>"; };
+		C115588022AB89C800E01C32 /* RuleDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailService.swift; sourceTree = "<group>"; };
+		C115588222AB8B2600E01C32 /* RuleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleItem.swift; sourceTree = "<group>"; };
+		C115588422AB8C1200E01C32 /* RuleDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailDataSource.swift; sourceTree = "<group>"; };
+		C115588622AB8F4E00E01C32 /* RuleDetailTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailTableView.swift; sourceTree = "<group>"; };
+		C115588822AB8FE000E01C32 /* RuleDetailVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailVCExtension.swift; sourceTree = "<group>"; };
+		C1169EF822AF5BB5000523EF /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		C1172F3022A237DB008B0D58 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C11B15F822834D410053B365 /* BoringSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BoringSSL.framework; sourceTree = "<group>"; };
 		C11B15F922834D410053B365 /* FIRAnalyticsConnector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FIRAnalyticsConnector.framework; sourceTree = "<group>"; };
@@ -150,6 +172,14 @@
 		C11B160B22834D410053B365 /* gRPCCertificates-Firestore.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "gRPCCertificates-Firestore.bundle"; sourceTree = "<group>"; };
 		C11B161D22834F910053B365 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C11B161F228350760053B365 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		C124346122A843110056BB62 /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
+		C124346322AABA720056BB62 /* RepeatModeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatModeExtension.swift; sourceTree = "<group>"; };
+		C124346522AABAA60056BB62 /* RepeatMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatMode.swift; sourceTree = "<group>"; };
+		C124346722AABD640056BB62 /* RuleListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleListVC.swift; sourceTree = "<group>"; };
+		C124346A22AABDA20056BB62 /* RuleListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleListService.swift; sourceTree = "<group>"; };
+		C124346C22AABF0E0056BB62 /* RuleDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailVC.swift; sourceTree = "<group>"; };
+		C124346F22AABF8E0056BB62 /* RuleTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleTableView.swift; sourceTree = "<group>"; };
+		C124347122AABFA90056BB62 /* RuleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleCell.swift; sourceTree = "<group>"; };
 		C147928622813B3700C366D5 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		C147928822813B6F00C366D5 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		C147928A228143BD00C366D5 /* TableViewWithSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewWithSwipe.swift; sourceTree = "<group>"; };
@@ -217,6 +247,8 @@
 		C19D6CD5228361FF005549EA /* DataObjectProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataObjectProtocol.swift; sourceTree = "<group>"; };
 		C19D6CD722836F7E005549EA /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		C19D6CD922836FB0005549EA /* AppTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTitle.swift; sourceTree = "<group>"; };
+		C1A9E06722ACF0EC00A93676 /* RepeatModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatModeVC.swift; sourceTree = "<group>"; };
+		C1A9E06C22ACFD0700A93676 /* RepeatModeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatModeTableView.swift; sourceTree = "<group>"; };
 		C1AB3B4622690B2500C50A69 /* AccountListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListVC.swift; sourceTree = "<group>"; };
 		C1C55CC922837BAA002F56B1 /* FIRManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRManagerProtocol.swift; sourceTree = "<group>"; };
 		C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRAccountManager.swift; sourceTree = "<group>"; };
@@ -311,6 +343,30 @@
 				C11B160B22834D410053B365 /* gRPCCertificates-Firestore.bundle */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C124346922AABD6B0056BB62 /* RuleList */ = {
+			isa = PBXGroup;
+			children = (
+				C124346722AABD640056BB62 /* RuleListVC.swift */,
+				C124346A22AABDA20056BB62 /* RuleListService.swift */,
+				C124346F22AABF8E0056BB62 /* RuleTableView.swift */,
+				C124347122AABFA90056BB62 /* RuleCell.swift */,
+			);
+			path = RuleList;
+			sourceTree = "<group>";
+		};
+		C124346E22AABF160056BB62 /* RuleDetail */ = {
+			isa = PBXGroup;
+			children = (
+				C115588422AB8C1200E01C32 /* RuleDetailDataSource.swift */,
+				C115588022AB89C800E01C32 /* RuleDetailService.swift */,
+				C115588622AB8F4E00E01C32 /* RuleDetailTableView.swift */,
+				C124346C22AABF0E0056BB62 /* RuleDetailVC.swift */,
+				C115588822AB8FE000E01C32 /* RuleDetailVCExtension.swift */,
+				C115588222AB8B2600E01C32 /* RuleItem.swift */,
+			);
+			path = RuleDetail;
 			sourceTree = "<group>";
 		};
 		C16599F72261BC5C00B964D3 = {
@@ -415,6 +471,9 @@
 			isa = PBXGroup;
 			children = (
 				C16D7C152266D3E200DB8AC6 /* FinTransaction.swift */,
+				C124346122A843110056BB62 /* Rule.swift */,
+				C124346522AABAA60056BB62 /* RepeatMode.swift */,
+				C124346322AABA720056BB62 /* RepeatModeExtension.swift */,
 				C1920BE4226B64AC000C597B /* Account.swift */,
 				C1920BEF226C5721000C597B /* AccountType.swift */,
 				C10EDC3E22773CB0006FA7E7 /* AccountTypeExtension.swift */,
@@ -428,13 +487,14 @@
 		C16D7C172266D61700DB8AC6 /* TransactionDetail */ = {
 			isa = PBXGroup;
 			children = (
-				C1615F30226343F60026F92D /* TransactionDetailVC.swift */,
-				C1920BDA226B5D2F000C597B /* TransactionDetailVCExtension.swift */,
+				C1920BD8226AF394000C597B /* TransactionDetailAmountTextFieldDelegate.swift */,
+				C14ACBBD22678F91000C9746 /* TransactionDetailDataSource.swift */,
 				C1920BD6226AF0C5000C597B /* TransactionDetailDelegate.swift */,
 				C14ACBC32267AAB9000C9746 /* TransactionDetailService.swift */,
+				C1615F32226345E20026F92D /* TransactionDetailTableView.swift */,
+				C1615F30226343F60026F92D /* TransactionDetailVC.swift */,
+				C1920BDA226B5D2F000C597B /* TransactionDetailVCExtension.swift */,
 				C14ACBC12267AA71000C9746 /* TransactionItem.swift */,
-				C14ACBBD22678F91000C9746 /* TransactionDetailDataSource.swift */,
-				C1920BD8226AF394000C597B /* TransactionDetailAmountTextFieldDelegate.swift */,
 			);
 			path = TransactionDetail;
 			sourceTree = "<group>";
@@ -499,13 +559,21 @@
 			path = FireStore;
 			sourceTree = "<group>";
 		};
+		C1A9E06922ACF0FF00A93676 /* RepeatMode */ = {
+			isa = PBXGroup;
+			children = (
+				C1A9E06722ACF0EC00A93676 /* RepeatModeVC.swift */,
+				C1A9E06C22ACFD0700A93676 /* RepeatModeTableView.swift */,
+			);
+			path = RepeatMode;
+			sourceTree = "<group>";
+		};
 		C1AB3B4522690B0300C50A69 /* TransactionList */ = {
 			isa = PBXGroup;
 			children = (
 				C1659A322261BCBE00B964D3 /* TransactionListVC.swift */,
 				C10EDC472277B883006FA7E7 /* TransactionListService.swift */,
 				C1659A392261FA8300B964D3 /* TransactionsTableView.swift */,
-				C1615F32226345E20026F92D /* TransactionDetailTableView.swift */,
 				C1CB036522630F310041EB3D /* TransactionCell.swift */,
 			);
 			path = TransactionList;
@@ -529,6 +597,7 @@
 				C147928622813B3700C366D5 /* DateExtension.swift */,
 				C147928822813B6F00C366D5 /* DateFormatterExtension.swift */,
 				C1C55CCF22841E09002F56B1 /* UIApplicationExtension.swift */,
+				C1169EF822AF5BB5000523EF /* StringExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -546,6 +615,9 @@
 		C1CB037022630FFB0041EB3D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				C1A9E06922ACF0FF00A93676 /* RepeatMode */,
+				C124346E22AABF160056BB62 /* RuleDetail */,
+				C124346922AABD6B0056BB62 /* RuleList */,
 				C1172F3222A23821008B0D58 /* TabBarController */,
 				C1AB3B4522690B0300C50A69 /* TransactionList */,
 				C16D7C172266D61700DB8AC6 /* TransactionDetail */,
@@ -741,19 +813,24 @@
 				C1C55CD022841E09002F56B1 /* UIApplicationExtension.swift in Sources */,
 				C19D6CD822836F7E005549EA /* LoginVC.swift in Sources */,
 				C16D7C162266D3E200DB8AC6 /* FinTransaction.swift in Sources */,
+				C124346822AABD640056BB62 /* RuleListVC.swift in Sources */,
 				C15C652E22860B2C0075D504 /* InputTextCell.swift in Sources */,
 				C147928722813B3700C366D5 /* DateExtension.swift in Sources */,
 				C19D6CCE22836072005549EA /* FIRAuth.swift in Sources */,
 				C1C55CD222846D80002F56B1 /* AccountListService.swift in Sources */,
+				C115588522AB8C1200E01C32 /* RuleDetailDataSource.swift in Sources */,
 				C1920BE0226B5DFF000C597B /* AccountCell.swift in Sources */,
+				C124346B22AABDA20056BB62 /* RuleListService.swift in Sources */,
 				C14ACBC42267AAB9000C9746 /* TransactionDetailService.swift in Sources */,
 				C1615F2F226342D20026F92D /* BarButtonItem.swift in Sources */,
 				C1CB036C22630FB90041EB3D /* UIViewExtension.swift in Sources */,
 				C1AB3B4722690B2500C50A69 /* AccountListVC.swift in Sources */,
+				C115588122AB89C800E01C32 /* RuleDetailService.swift in Sources */,
 				C17BFEC52268FE0900DA32C7 /* RightNumberField.swift in Sources */,
 				C1659A432261FB4000B964D3 /* DataModel.swift in Sources */,
 				C1CB036A22630F8A0041EB3D /* NumberLabel.swift in Sources */,
 				C16D7C132266D23600DB8AC6 /* LeftRightCell.swift in Sources */,
+				C124346422AABA720056BB62 /* RepeatModeExtension.swift in Sources */,
 				C1920BD9226AF394000C597B /* TransactionDetailAmountTextFieldDelegate.swift in Sources */,
 				C1920BF0226C5721000C597B /* AccountType.swift in Sources */,
 				C1CB036822630F590041EB3D /* SimpleLabel.swift in Sources */,
@@ -764,6 +841,7 @@
 				C1C55CCC22837C03002F56B1 /* FIRAccountManager.swift in Sources */,
 				C147928922813B6F00C366D5 /* DateFormatterExtension.swift in Sources */,
 				C19D6CD122836072005549EA /* FireStoreGettersProtocol.swift in Sources */,
+				C124347022AABF8E0056BB62 /* RuleTableView.swift in Sources */,
 				C17BFEBA2268FD4C00DA32C7 /* DateSelectionCell.swift in Sources */,
 				C17170DB2286E244005472ED /* LoginService.swift in Sources */,
 				C1659A3A2261FA8300B964D3 /* TransactionsTableView.swift in Sources */,
@@ -771,15 +849,22 @@
 				C19D6CCD22836072005549EA /* DataObjectType.swift in Sources */,
 				C10EDC3F22773CB0006FA7E7 /* AccountTypeExtension.swift in Sources */,
 				C1C55CCE22837C2E002F56B1 /* FIRFinTransactionManager.swift in Sources */,
+				C115588922AB8FE000E01C32 /* RuleDetailVCExtension.swift in Sources */,
 				C1920BDE226B5DBD000C597B /* AccountsTableView.swift in Sources */,
+				C1169EF922AF5BB5000523EF /* StringExtension.swift in Sources */,
 				C1CB036622630F310041EB3D /* TransactionCell.swift in Sources */,
 				C1659A472261FB4000B964D3 /* DataModelRowExtension.swift in Sources */,
+				C1A9E06D22ACFD0700A93676 /* RepeatModeTableView.swift in Sources */,
 				C19D6CDA22836FB0005549EA /* AppTitle.swift in Sources */,
 				C10EDC482277B883006FA7E7 /* TransactionListService.swift in Sources */,
+				C1A9E06822ACF0EC00A93676 /* RepeatModeVC.swift in Sources */,
 				C19D6CCF22836072005549EA /* FIRDataProtocol.swift in Sources */,
+				C124347222AABFA90056BB62 /* RuleCell.swift in Sources */,
 				C1C55CCA22837BAA002F56B1 /* FIRManagerProtocol.swift in Sources */,
 				C1920BDB226B5D2F000C597B /* TransactionDetailVCExtension.swift in Sources */,
 				C147928B228143BD00C366D5 /* TableViewWithSwipe.swift in Sources */,
+				C124346622AABAA60056BB62 /* RepeatMode.swift in Sources */,
+				C115588322AB8B2600E01C32 /* RuleItem.swift in Sources */,
 				C1615F31226343F60026F92D /* TransactionDetailVC.swift in Sources */,
 				C17BFECA2268FE0900DA32C7 /* PasswordField.swift in Sources */,
 				C1920BEE226B7CB6000C597B /* Button.swift in Sources */,
@@ -792,6 +877,7 @@
 				C19D6CD022836072005549EA /* FireStoreData.swift in Sources */,
 				C19D6CD6228361FF005549EA /* DataObjectProtocol.swift in Sources */,
 				C1659A442261FB4000B964D3 /* CellStyle.swift in Sources */,
+				C115588722AB8F4E00E01C32 /* RuleDetailTableView.swift in Sources */,
 				C1172F3122A237DB008B0D58 /* TabBarController.swift in Sources */,
 				C17BFEC62268FE0900DA32C7 /* TextFieldProtocol.swift in Sources */,
 				C17BFEC72268FE0900DA32C7 /* EmailField.swift in Sources */,
@@ -799,6 +885,7 @@
 				C1920BEA226B6758000C597B /* DataExtension.swift in Sources */,
 				C17BFEBC2268FD7A00DA32C7 /* DatePicker.swift in Sources */,
 				C1659A342261BCBE00B964D3 /* TransactionListVC.swift in Sources */,
+				C124346222A843110056BB62 /* Rule.swift in Sources */,
 				C1659A332261BCBE00B964D3 /* NavigationController.swift in Sources */,
 				C1920BEC226B6F4B000C597B /* DataProtocol.swift in Sources */,
 				C1920BE2226B5F2F000C597B /* AccountDetailVC.swift in Sources */,
@@ -809,6 +896,7 @@
 				C1659A042261BC5C00B964D3 /* AppDelegate.swift in Sources */,
 				C10EDC4422773E12006FA7E7 /* SegmentedControl.swift in Sources */,
 				C1920BE5226B64AC000C597B /* Account.swift in Sources */,
+				C124346D22AABF0E0056BB62 /* RuleDetailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

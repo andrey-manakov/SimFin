@@ -9,7 +9,13 @@ class AccountListService: ClassService {
         guard let id = row?.id else {
             fatalError("Nil Id")
         }
-        Data.shared.delete(accountWithId: id) {}
+        Data.shared.delete(accountWithId: id) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("LOG message from AccountListService: Account was deleted")
+            }
+        }
         completion?()
     }
 }

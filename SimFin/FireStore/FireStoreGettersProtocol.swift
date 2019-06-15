@@ -47,6 +47,9 @@ extension FireStoreGettersProtocol {
 
         case .transaction:
             return FinTransaction(data)
+
+        case .rule:
+            return Rule(data)
         }
     }
 

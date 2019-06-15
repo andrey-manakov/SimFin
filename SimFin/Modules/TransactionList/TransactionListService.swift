@@ -14,12 +14,11 @@ internal final class TransactionListService: ClassService {
         return DataModel(rows)
     }
 
-    func delete(row: DataModelRowProtocol?, completion: (() -> Void)? = nil) {
+    func delete(row: DataModelRowProtocol?, completion: ((Error?) -> Void)? = nil) {
         guard let id = row?.id else {
             fatalError("Nil Id")
         }
         Data.shared.delete(transactionWithId: id, completion: completion)
-        completion?()
     }
 
     func logOut(completion: ((Error?) -> Void)? = nil) {

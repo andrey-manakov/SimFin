@@ -5,6 +5,7 @@ internal class Data: DataProtocol {
     internal static var shared = Data()
     var accounts = [AccountId: Account]()
     var transactions = [FinTransactionId: FinTransaction]()
+    var rules = [RuleId: Rule]()
     var id: String { return UUID().uuidString }
     private let fireAuth: FireAuthProtocol? = FIRAuth.shared
 

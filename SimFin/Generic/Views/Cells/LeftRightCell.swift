@@ -7,6 +7,7 @@ internal protocol LeftRightCellProtocol: AnyObject {
     var detailTextLabel: UILabel? { get }
     /// Accessory Type for the cell
     var accessoryType: UITableViewCell.AccessoryType { get set }
+    var accessibilityIdentifier: String? { get set }
 }
 /// Simple cell like apple standard default style
 internal class LeftRightCell: UITableViewCell, LeftRightCellProtocol {
