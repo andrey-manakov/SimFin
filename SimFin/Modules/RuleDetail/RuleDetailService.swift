@@ -5,7 +5,7 @@ internal class RuleDetailService: ClassService {
         guard let rule = rule else {
             return
         }
-        data.save(rule) { [unowned self] err, ruleId in
+        data.save(rule) { err, ruleId in
             if let err = err {
                 print(err.localizedDescription)
             } else {
@@ -22,13 +22,13 @@ internal class RuleDetailService: ClassService {
             guard let from = rule.from else {
                 return nil
             }
-            return data.getAccountName(id: from)
+            return data.accounts[from]?.name // data.getAccountName(id: from)
 
         case .to:
             guard let to = rule.to else {
                 return nil
             }
-            return data.getAccountName(id: to)
+            return data.accounts[to]?.name // data.getAccountName(id: to)
 
         case .amount:
             return "\(rule.amount ?? 0)"
@@ -40,7 +40,7 @@ internal class RuleDetailService: ClassService {
             return "\(rule.amount ?? 0)"
 
         case .baseAccount:
-            return data.getAccountName(id: rule.baseAccount)
+            return data.accounts[rule.baseAccount ?? ""]?.name // data.getAccountName(id: rule.baseAccount)
 
         case .dateBegin:
             return (rule.beginDate ?? Date()).string

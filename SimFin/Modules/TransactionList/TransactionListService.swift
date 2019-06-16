@@ -3,14 +3,25 @@ import Foundation
 /// Service class for `TransactionListVC`
 internal final class TransactionListService: ClassService {
     func getData() -> DataModelProtocol {
-        let rows = data.getTransactions().map {
-            DataModelRow(id: $0.id, texts: [
-                .left: "\($0.date ?? Date())",
-                .up: data.getAccountName(id: $0.from),
-                .down: data.getAccountName(id: $0.to),
-                .right: "\($0.amount ?? 0)"])
+        let transactions = data.transactions.sorted { (first: (key: FinTransactionId, value: FinTransaction), second: (key: FinTransactionId, value: FinTransaction)) -> Bool in
+            first.value.date ?? Date() > second.value.date ?? Date()
         }
-        print(rows.count)
+        let rows = transactions.map { args -> DataModelRow in
+            let (transactionId, transaction) = args
+            return DataModelRow(id: transactionId, texts: [
+                .left: "\(transaction.date ?? Date())",
+                .up: data.accounts[transaction.from ?? ""]?.name, // data.getAccountName(id: transaction.from),
+                .down: data.accounts[transaction.to ?? ""]?.name, // data.getAccountName(id: transaction.to),
+                .right: "\(transaction.amount ?? 0)"])
+        }
+//        let rows = data.transactions.map { args -> DataModelRow in
+//            let (transactionId, transaction) = args
+//            return DataModelRow(id: transactionId, texts: [
+//                .left: "\(transaction.date ?? Date())",
+//                .up: data.accounts[transaction.from ?? ""]?.name, // data.getAccountName(id: transaction.from),
+//                .down: data.accounts[transaction.to ?? ""]?.name, // data.getAccountName(id: transaction.to),
+//                .right: "\(transaction.amount ?? 0)"])
+//        }
         return DataModel(rows)
     }
 

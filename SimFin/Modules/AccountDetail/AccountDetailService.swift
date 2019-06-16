@@ -8,7 +8,13 @@ internal final class AccountDetailService: ClassService {
         if let id = id {
             data.updateAccount(id: id, name: name)
         } else {
-            _ = data.addAccount(name, type: type)
+            data.add(Account(id: nil, name: name, type: type, amount: 0)) { err, accountId in
+                if let err = err {
+                    print(err.localizedDescription)
+                } else {
+                    print("LOG message from AccountDetailService: Account with id \(accountId ?? "NIL") was created")
+                }
+            }
         }
     }
 }

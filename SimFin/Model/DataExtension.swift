@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - Add data objects
 extension Data {
     // MARK: add
     func addAccount(_ name: String, type: AccountType) -> AccountId {
@@ -14,6 +15,17 @@ extension Data {
             }
         }
         return id
+    }
+    func add(_ account: Account, completion: ((Error?, RuleId?) -> Void)? = nil) {
+        let id = self.id
+        accounts[id] = account
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
+            if let err = err {
+                print(err)
+            } else {
+                print("Account successfully created")
+            }
+        }
     }
     func add(transaction: FinTransaction) -> FinTransactionId? {
         let id = self.id
@@ -32,31 +44,20 @@ extension Data {
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true)
         return id
     }
-    func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) -> RuleId? {
+    func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
         rules[id] = rule
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").setData(rule.data) { err in
             print(err as Any)
             completion?(err, id)
         }
-        print(rules)
-        return id
     }
+}
 
+// MARK: - Update data objects methods
+extension Data {
     func updateAccount(id: String, name: String) {
         print("implementation is needed")
-    }
-    func getAccounts() -> [Account] {
-        return Array(accounts.values)
-    }
-    func getAccounts(ofType type: AccountType) -> [Account] {
-        return Array(accounts.values).filter { $0.type == type }
-    }
-    func getAccountName(id: AccountId?) -> String? {
-        guard let id = id else {
-            return nil
-        }
-        return accounts[id]?.name
     }
     func save(transaction: FinTransaction, completion: ((Error?) -> Void)? = nil) {
         // FIXME: Add completion
@@ -76,6 +77,8 @@ extension Data {
     }
 
     // MARK: delete data objects
+}
+extension Data {
     func delete(transactionWithId id: String, completion: ((Error?) -> Void)? = nil) {
         guard let transaction = transactions[id], let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
             return
@@ -100,18 +103,12 @@ extension Data {
         }
     }
     func delete(_ rule: Rule, completion: ((Error?) -> Void)? = nil) {
+        guard let id = rule.id else {
+            return
+        }
         rules[id] = nil
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").delete { err in
             completion?(err)
         }
-    }
-
-    func getTransactions() -> [FinTransaction] {
-        return Array(transactions.values).sorted {
-            ($0.date ?? Date()).isAfter(($1.date ?? Date()))
-        }
-    }
-    func getRules() -> [RuleId: Rule] {
-        return rules
     }
 }

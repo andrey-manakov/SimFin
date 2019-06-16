@@ -1,7 +1,8 @@
 class AccountListService: ClassService {
     func getData(forAccountType accountType: AccountType) -> DataModelProtocol {
-        let rows = data.getAccounts(ofType: accountType).map {
-            DataModelRow(id: $0.id, texts: [.name: $0.name ?? "", .desc: "\($0.amount ?? 0)"])
+        let rows = data.accounts.map { args -> DataModelRow in
+            let (accountId, account) = args
+            return DataModelRow(id: accountId, texts: [.name: account.name ?? "", .desc: "\(account.amount ?? 0)"])
         }
         return DataModel(rows)
     }

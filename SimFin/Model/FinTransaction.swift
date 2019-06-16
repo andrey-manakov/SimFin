@@ -4,8 +4,8 @@ typealias FinTransactionId = String
 
 struct FinTransaction {
     var id: FinTransactionId?
-    var from: String?
-    var to: String?
+    var from: AccountId?
+    var to: AccountId?
     var amount: Int?
     var description: String?
     var date: Date?

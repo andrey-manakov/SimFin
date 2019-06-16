@@ -137,6 +137,11 @@ internal class SimFinUITests: XCTestCase {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: id).label == value
         }
         // FIXME: check date
+        print(check(id: "from", value: "from: \(from.name)"))
+        print(app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "from").label)
+        print("from: \(from.name)")
+        print(check(id: "to", value: "to: \(to.name)"))
+        print(check(id: "amount", value: "\(amount)"))
         return check(id: "from", value: "from: \(from.name)") &&
             check(id: "to", value: "to: \(to.name)") &&
             check(id: "amount", value: "\(amount)")

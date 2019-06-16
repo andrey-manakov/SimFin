@@ -17,16 +17,10 @@ internal class TransactionDetailService: ClassService {
     func getTransactionData(transaction: FinTransaction, item: TransactionItem) -> String? {
         switch item {
         case .from:
-            guard let from = transaction.from else {
-                return nil
-            }
-            return data.getAccountName(id: from)
+            return data.accounts[transaction.from ?? ""]?.name // data.getAccountName(id: from)
 
         case .to:
-            guard let to = transaction.to else {
-                return nil
-            }
-            return data.getAccountName(id: to)
+            return data.accounts[transaction.to ?? ""]?.name // data.getAccountName(id: to)
 
         case .amount:
             return "\(transaction.amount ?? 0)"

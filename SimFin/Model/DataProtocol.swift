@@ -1,19 +1,14 @@
 import Foundation
-
+// TODO: unify implementation
 internal protocol DataProtocol {
+    var accounts: [AccountId: Account] { get }
+    var transactions: [FinTransactionId: FinTransaction] { get }
+    var rules: [RuleId: Rule] { get }
+
     // MARK: add data objects
-    // TODO: unify implementation
-    func addAccount(_ name: String, type: AccountType) -> AccountId
+    func add(_ account: Account, completion: ((Error?, AccountId?) -> Void)?)
     func add(transaction: FinTransaction) -> FinTransactionId?
-
-    // MARK: extraction all methods
-    func getAccounts() -> [Account]
-    func getTransactions() -> [FinTransaction]
-    func getRules() -> [RuleId: Rule]
-
-    // MARK: subset extraction
-    func getAccounts(ofType type: AccountType) -> [Account]
-    func getAccountName(id: AccountId?) -> String?
+    func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)?)
 
     // MARK: update methods
     func updateAccount(id: String, name: String)
