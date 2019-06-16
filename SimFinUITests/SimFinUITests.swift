@@ -35,8 +35,39 @@ internal class SimFinUITests: XCTestCase {
         //        Springboard.deleteMyApp()
     }
 
-    /// Main integral UI Test
+    internal func testCreateAccount() {
+        XCTAssert(logOut())
+        XCTAssert(logIn())
+        XCTAssert(create(accounts[0]))
+        XCTAssert(delete(accounts[0]))
+        XCTAssert(logOut())
+    }
     internal func testCreateTransaction() {
+        XCTAssert(logOut())
+        XCTAssert(logIn())
+        XCTAssert(createAccountsAndTransaction(amounts[0], from: accounts[0], to: accounts[1]))
+        XCTAssert(delete(accounts[0]))
+        XCTAssert(delete(accounts[1]))
+        XCTAssert(logOut())
+    }
+
+    private func create(_ account: Account) -> Bool {
+        app.tabBars.buttons["Accounts"].tap()
+        app.navigationBars["Accounts"].buttons["Add"].tap()
+        tap(account.name)
+        print(account.type)
+        app.buttons[account.type].tap()
+        app.navigationBars["Account Details"].buttons["Done"].tap()
+        print(account.type)
+        app.buttons[account.type].tap()
+        let testResult = app.tables["v"].staticTexts[account.name].waitForExistence(timeout: 2)
+        app.tables["v"].staticTexts[account.name].tap()
+        app.tabBars.buttons["Transactions"].tap()
+        return testResult
+    }
+
+    /// Main integral UI Test
+    internal func testMain() {
         // Log out Log in
         XCTAssert(logOut())
         XCTAssert(logIn())
@@ -76,6 +107,9 @@ internal class SimFinUITests: XCTestCase {
     }
 
     private func logOut() -> Bool {
+        if app.tabBars.buttons["Transactions"].exists {
+            app.tabBars.buttons["Transactions"].tap()
+        }
         if app.navigationBars["Transactions"].exists {
             app.navigationBars["Transactions"].buttons["Log Out"].tap()
         }
