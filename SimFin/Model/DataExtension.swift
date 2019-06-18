@@ -69,8 +69,9 @@ extension Data {
         _ = add(transaction: transaction)
     }
     func save(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) {
-        if rule.id != nil {
-            delete(rule)
+        // FIXME: change completion logic (after all)
+        if let id = rule.id {
+            delete(ruleWithId: id, completion: nil)
         }
         _ = add(rule, completion: completion)
         print(Data.shared.rules)
@@ -98,14 +99,12 @@ extension Data {
     func delete(accountWithId id: AccountId, completion: ((Error?) -> Void)?) {
         accounts[id] = nil
         _ = transactions.filter { $0.value.from == id || $0.value.to == id }.map { delete(transactionWithId: $0.key) }
+        _ = rules.filter { $0.value.from == id || $0.value.to == id }.map { delete(ruleWithId: $0.key) }
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").delete { err in
             completion?(err)
         }
     }
-    func delete(_ rule: Rule, completion: ((Error?) -> Void)? = nil) {
-        guard let id = rule.id else {
-            return
-        }
+    func delete(ruleWithId id: RuleId, completion: ((Error?) -> Void)? = nil) {
         rules[id] = nil
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").delete { err in
             completion?(err)

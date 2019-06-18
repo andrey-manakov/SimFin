@@ -18,7 +18,7 @@ internal final class RuleListService: ClassService {
         guard let id = row?.id else {
             fatalError("Nil Id")
         }
-        Data.shared.delete(transactionWithId: id, completion: completion)
+        data.delete(ruleWithId: id, completion: completion)
     }
 
     func logOut(completion: ((Error?) -> Void)? = nil) {

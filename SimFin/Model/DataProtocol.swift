@@ -18,6 +18,7 @@ internal protocol DataProtocol {
     // MARK: delete methods
     func delete(transactionWithId id: String, completion: ((Error?) -> Void)?)
     func delete(accountWithId id: String, completion: ((Error?) -> Void)?)
+    func delete(ruleWithId id: RuleId, completion: ((Error?) -> Void)?)
 
     // MARK: authorization methods
     func signOut(_ completion: ((Error?) -> Void)?)
