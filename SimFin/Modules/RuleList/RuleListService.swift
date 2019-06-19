@@ -8,7 +8,7 @@ internal final class RuleListService: ClassService {
             return DataModelRow(id: ruleId, texts: [
                 .left: "\(rule.lastExecutionDate ?? Date())",
                 .up: data.accounts[rule.from ?? ""]?.name, // data.getAccountName(id: rule.from),
-                .down: data.accounts[rule.from ?? ""]?.name, // data.getAccountName(id: rule.to),
+                .down: data.accounts[rule.to ?? ""]?.name, // data.getAccountName(id: rule.to),
                 .right: "\(rule.amount ?? 0)"])
         }
         return DataModel(rows)

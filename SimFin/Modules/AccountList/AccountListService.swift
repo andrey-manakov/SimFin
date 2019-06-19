@@ -1,9 +1,14 @@
 class AccountListService: ClassService {
     func getData(forAccountType accountType: AccountType) -> DataModelProtocol {
-        let rows = data.accounts.map { args -> DataModelRow in
+        let rows = data.accounts.filter { $0.value.type == accountType }.map { args -> DataModelRow in
             let (accountId, account) = args
             return DataModelRow(id: accountId, texts: [.name: account.name ?? "", .desc: "\(account.amount ?? 0)"])
         }
+
+//        let rows = data.accounts.map { args -> DataModelRow in
+//            let (accountId, account) = args
+//            return DataModelRow(id: accountId, texts: [.name: account.name ?? "", .desc: "\(account.amount ?? 0)"])
+//        }
         return DataModel(rows)
     }
     func delete(row: DataModelRowProtocol?, completion: (() -> Void)? = nil) {
@@ -16,7 +21,7 @@ class AccountListService: ClassService {
             } else {
                 print("LOG message from AccountListService: Account was deleted")
             }
+            completion?()
         }
-        completion?()
     }
 }

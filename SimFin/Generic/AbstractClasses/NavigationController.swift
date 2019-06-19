@@ -9,4 +9,9 @@ internal final class NavigationController: UINavigationController {
         self.viewControllers.append(viewController)
     }
     deinit { print("\(type(of: self)) deinit!") }
+    func reload() {
+        for viewController in viewControllers {
+            (viewController as? ViewController)?.reload()
+        }
+    }
 }

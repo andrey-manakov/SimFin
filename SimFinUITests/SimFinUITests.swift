@@ -73,22 +73,20 @@ internal class SimFinUITests: XCTestCase {
     }
 
     private func create(_ rule: Rule) -> Bool {
+        app.tabBars.buttons["Rules"].tap()
         app.navigationBars["Rules"].buttons["Add"].tap()
         tap(String(rule.transaction.amount))
         app.tables["v"].staticTexts["from"].tap()
         XCTAssert(addAndTap(account: rule.transaction.from))
         app.tables["v"].staticTexts["to"].tap()
         XCTAssert(addAndTap(account: rule.transaction.to))
-        app.navigationBars["Transaction Details"].buttons["Done"].tap()
+        app.navigationBars["Rule Details"].buttons["Done"].tap()
         func check(id: String, value: String) -> Bool {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: id).label == value
         }
-        // FIXME: check date
-//        print(check(id: "from", value: "from: \(rule.transaction.from.name)"))
-//        print(app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "from").label)
-//        print("from: \(rule.transaction.from.name)")
-//        print(check(id: "to", value: "to: \(rule.transaction.to.name)"))
-//        print(check(id: "amount", value: "\(rule.transaction.amount)"))
+        print(check(id: "from", value: "from: \(rule.transaction.from.name)"))
+        print(check(id: "to", value: "to: \(rule.transaction.to.name)"))
+        print(check(id: "amount", value: "\(rule.transaction.amount)"))
         return check(id: "from", value: "from: \(rule.transaction.from.name)") &&
             check(id: "to", value: "to: \(rule.transaction.to.name)") &&
             check(id: "amount", value: "\(rule.transaction.amount)")
@@ -103,7 +101,7 @@ internal class SimFinUITests: XCTestCase {
         app.navigationBars["Account Details"].buttons["Done"].tap()
         print(account.type)
         app.buttons[account.type].tap()
-        let testResult = app.tables["v"].staticTexts[account.name].waitForExistence(timeout: 2)
+        let testResult = app.tables["v"].staticTexts[account.name].waitForExistence(timeout: 10)
         app.tables["v"].staticTexts[account.name].tap()
         app.tabBars.buttons["Transactions"].tap()
         return testResult
@@ -196,11 +194,12 @@ internal class SimFinUITests: XCTestCase {
     }
     private func delete(_ account: Account) -> Bool {
         // FIXME: change logic - delete through the Accounts tab
-        app.navigationBars["Transactions"].buttons["Add"].tap()
-        app.tables["v"].staticTexts["from"].tap()
+        app.tabBars.buttons["Accounts"].tap()
+//        app.navigationBars["Transactions"].buttons["Add"].tap()
+//        app.tables["v"].staticTexts["from"].tap()
         app.buttons[account.type].tap()
         app.tables["v"].cells.containing(.staticText, identifier: account.name).element.longSwipe(.left)
-        let result = !app.tables["v"].cells.containing(.staticText, identifier: account.name).element.exists
+        let result = !app.tables["v"].cells.containing(.staticText, identifier: account.name).element.waitForExistence(timeout: 2)
         app.navigationBars.buttons.element(boundBy: 0).tap()
         app.navigationBars.buttons.element(boundBy: 0).tap()
         return result

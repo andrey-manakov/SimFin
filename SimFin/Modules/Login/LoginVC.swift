@@ -57,8 +57,10 @@ internal final class LoginVC: ViewController {
         service.listenToAuthUpdates {[unowned self] user in
             if user != nil {
 //                self.present(NavigationController(TransactionListVC()), animated: true)
-                self.present(TabBarController())
+                self.present(TabBarController.shared)
                 self.service.loadData()
+                // FIXME: Remove direct access to Data
+                Data.shared.setListnerToAccount()
             } else {
                 print("User is nil")
             }
@@ -69,7 +71,4 @@ internal final class LoginVC: ViewController {
         self.loginTextField.text = ""
         self.passwordTextField.text = ""
     }
-}
-/// Extension to provide view controller with service class
-extension LoginVC {
 }

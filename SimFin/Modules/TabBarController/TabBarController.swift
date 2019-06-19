@@ -5,7 +5,9 @@ internal protocol TabBarControllerProtocol {
 
 /// Main viewcontroller shown upon successful login
 internal final class TabBarController: UITabBarController, TabBarControllerProtocol {
-    internal init() {
+    internal static var shared = TabBarController()
+
+    private init() {
         super.init(nibName: nil, bundle: nil)
         viewControllers = [
             NavigationController(TransactionListVC()),
@@ -20,8 +22,14 @@ internal final class TabBarController: UITabBarController, TabBarControllerProto
         tabBar.items?[2].title = "Rules"
     }
 
-    internal required init?(coder aDecoder: NSCoder) {
-        return nil
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func reload() {
+        for viewController in viewControllers ?? [ViewController]() {
+            (viewController as? NavigationController)?.reload()
+        }
     }
 
     deinit { print("\(type(of: self)) deinit!") }

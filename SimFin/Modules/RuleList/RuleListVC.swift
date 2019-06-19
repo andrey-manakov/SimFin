@@ -16,7 +16,6 @@ internal final class RuleListVC: ViewController {
                 }
             }
         }
-//        (rule: Rule?, doneAction: (() -> Void)?)
         navigationItem.rightBarButtonItem = BarButtonItem("Add") { [unowned self] in
             let doneAction = {
                 self.reload()

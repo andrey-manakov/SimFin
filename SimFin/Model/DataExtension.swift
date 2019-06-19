@@ -18,7 +18,7 @@ extension Data {
     }
     func add(_ account: Account, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
-        accounts[id] = account
+//        accounts[id] = account
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
             if let err = err {
                 print(err)
@@ -97,7 +97,8 @@ extension Data {
         //        completion?()
     }
     func delete(accountWithId id: AccountId, completion: ((Error?) -> Void)?) {
-        accounts[id] = nil
+        // TODO: consider uncommenting to ensure immidiate update
+        //        accounts[id] = nil
         _ = transactions.filter { $0.value.from == id || $0.value.to == id }.map { delete(transactionWithId: $0.key) }
         _ = rules.filter { $0.value.from == id || $0.value.to == id }.map { delete(ruleWithId: $0.key) }
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").delete { err in
@@ -108,6 +109,54 @@ extension Data {
         rules[id] = nil
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").delete { err in
             completion?(err)
+        }
+    }
+}
+
+// MARK: - Setting listners
+extension Data {
+    func setListnerToAccount() {
+        let path = "users/\(Auth.auth().currentUser?.uid ?? "")/account"
+        print(path)
+        Firestore.firestore().collection(path).addSnapshotListener { [unowned self] snapshot, error in
+            guard let snapshot = snapshot else {
+                print("Error fetching snapshots: \(error?.localizedDescription ?? "")")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if diff.type == .added {
+                    self.accounts[diff.document.documentID] = Account(diff.document.data())
+                }
+                if diff.type == .modified {
+                    print("Modified account: \(diff.document.data())")
+                    // FIXME: Implementation needed
+                }
+                if diff.type == .removed {
+                    self.accounts[diff.document.documentID] = nil
+                }
+            }
+            TabBarController.shared.reload()
+            print(snapshot)
+        }
+
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")").addSnapshotListener { snapshot, error in
+            guard let snapshot = snapshot else {
+                print("Error fetching snapshots: \(error?.localizedDescription ?? "")")
+                return
+            }
+            print(snapshot)
+//            snapshot.doc
+//            snapshot.documentChanges.forEach { diff in
+//                if (diff.type == .added) {
+//                    print("New city: \(diff.document.data())")
+//                }
+//                if (diff.type == .modified) {
+//                    print("Modified city: \(diff.document.data())")
+//                }
+//                if (diff.type == .removed) {
+//                    print("Removed city: \(diff.document.data())")
+//                }
+//            }
         }
     }
 }
