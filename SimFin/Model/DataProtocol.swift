@@ -7,12 +7,13 @@ internal protocol DataProtocol {
 
     // MARK: add data objects
     func add(_ account: Account, completion: ((Error?, AccountId?) -> Void)?)
-    func add(transaction: FinTransaction) -> FinTransactionId?
+//    func add(transaction: FinTransaction) -> FinTransactionId?
+    func add(_ transaction: FinTransaction, completion: ((Error?, RuleId?) -> Void)?)
     func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)?)
 
     // MARK: update methods
-    func updateAccount(id: String, name: String)
-    func save(transaction: FinTransaction, completion: ((Error?) -> Void)?)
+    func save(_ account: Account, completion: ((Error?) -> Void)?)
+    func save(_ transaction: FinTransaction, completion: ((Error?) -> Void)?)
     func save(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)?)
 
     // MARK: delete methods
@@ -28,6 +29,9 @@ internal protocol DataProtocol {
 
 extension DataProtocol {
     func save(transaction: FinTransaction) {
-        save(transaction: transaction, completion: nil)
+        save(transaction, completion: nil)
+    }
+    func save(_ account: Account) {
+        save(account, completion: nil)
     }
 }

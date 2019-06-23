@@ -32,7 +32,7 @@ internal class SimFinUITests: XCTestCase {
     override internal func setUp() {
         super.setUp()
         // TODO: move to instance method
-//        continueAfterFailure = true
+        continueAfterFailure = true
         SimFinUITests.app = XCUIApplication()
         SimFinUITests.app?.launch()
     }
@@ -55,6 +55,14 @@ internal class SimFinUITests: XCTestCase {
             delete(Array(accounts[..<2]))
         })
     }
+    internal func testChangeTransactionAmount() {
+        XCTAssert(self.perform {
+            create(transactions[0]) &&
+            changeTransaction(amount: amounts[1]) &&
+            check([(account: accounts[0], value: -amounts[1]), (account: accounts[1], value: amounts[1])]) &&
+            delete(Array(accounts[..<2]))
+        })
+    }
     internal func testCreateRule() {
         XCTAssert(self.perform {
             create(rules[0]) &&
@@ -63,6 +71,45 @@ internal class SimFinUITests: XCTestCase {
             delete(Array(accounts[..<2]))
         })
     }
+    internal func testMain() {
+        // Log out Log in
+        XCTAssert(logOut())
+        XCTAssert(logIn())
+
+        // Create three accounts and three transactions
+        XCTAssert(createAccountsAndTransaction(amounts[0], from: accounts[0], to: accounts[1]))
+        XCTAssert(createAccountsAndTransaction(amounts[1], from: accounts[1], to: accounts[2]))
+        XCTAssert(createAccountsAndTransaction(amounts[2], from: accounts[2], to: accounts[0]))
+
+        // Check account values based on the transactions
+        XCTAssert(check(accounts[0], value: -amounts[0] + amounts[2]))
+        XCTAssert(check(accounts[1], value: -amounts[1] + amounts[0]))
+        XCTAssert(check(accounts[2], value: -amounts[2] + amounts[1]))
+
+        // Change transaction and check that account amounts changed correctly
+        XCTAssert(changeTransactionTo(amounts[3], from: accounts[0], to: accounts[2]))
+        XCTAssert(check(accounts[0], value: -amounts[0] - amounts[3]))
+        XCTAssert(check(accounts[1], value: -amounts[1] + amounts[0]))
+        XCTAssert(check(accounts[2], value: amounts[1] + amounts[3]))
+
+        // Delete account and check indirectly that transaction was deleted through the check of accunt value change
+        XCTAssert(delete(accounts[0]))
+        XCTAssert(check(accounts[1], value: -amounts[1]))
+        XCTAssert(check(accounts[2], value: amounts[1]))
+
+        // Delete transaction and check account values
+        app.tables["v"].cells["cell_0"].longSwipe(.left)
+        XCTAssert(check(accounts[1], value: 0))
+        XCTAssert(check(accounts[2], value: 0))
+
+        // Clean accounts
+        XCTAssert(delete(accounts[1]))
+        XCTAssert(delete(accounts[2]))
+
+        // Logout
+        XCTAssert(logOut())
+    }
+
     private func perform(_ test: () -> Bool) -> Bool {
         var testResults = [Bool]()
         testResults.append(logOut())
@@ -128,44 +175,6 @@ internal class SimFinUITests: XCTestCase {
             check(id: "amount", value: "\(transaction.amount)")
     }
     /// Main integral UI Test
-    internal func testMain() {
-        // Log out Log in
-        XCTAssert(logOut())
-        XCTAssert(logIn())
-
-        // Create three accounts and three transactions
-        XCTAssert(createAccountsAndTransaction(amounts[0], from: accounts[0], to: accounts[1]))
-        XCTAssert(createAccountsAndTransaction(amounts[1], from: accounts[1], to: accounts[2]))
-        XCTAssert(createAccountsAndTransaction(amounts[2], from: accounts[2], to: accounts[0]))
-
-        // Check account values based on the transactions
-        XCTAssert(check(accounts[0], value: -amounts[0] + amounts[2]))
-        XCTAssert(check(accounts[1], value: -amounts[1] + amounts[0]))
-        XCTAssert(check(accounts[2], value: -amounts[2] + amounts[1]))
-
-        // Change transaction and check that account amounts changed correctly
-        XCTAssert(changeTransactionTo(amounts[3], from: accounts[0], to: accounts[2]))
-        XCTAssert(check(accounts[0], value: -amounts[0] - amounts[3]))
-        XCTAssert(check(accounts[1], value: -amounts[1] + amounts[0]))
-        XCTAssert(check(accounts[2], value: amounts[1] + amounts[3]))
-
-        // Delete account and check indirectly that transaction was deleted through the check of accunt value change
-        XCTAssert(delete(accounts[0]))
-        XCTAssert(check(accounts[1], value: -amounts[1]))
-        XCTAssert(check(accounts[2], value: amounts[1]))
-
-        // Delete transaction and check account values
-        app.tables["v"].cells["cell_0"].longSwipe(.left)
-        XCTAssert(check(accounts[1], value: 0))
-        XCTAssert(check(accounts[2], value: 0))
-
-        // Clean accounts
-        XCTAssert(delete(accounts[1]))
-        XCTAssert(delete(accounts[2]))
-
-        // Logout
-        XCTAssert(logOut())
-    }
 
     private func logOut() -> Bool {
         if app.tabBars.buttons["Transactions"].exists {
@@ -195,8 +204,16 @@ internal class SimFinUITests: XCTestCase {
     private func delete(_ account: Account) -> Bool {
         // FIXME: change logic - delete through the Accounts tab
         app.tabBars.buttons["Accounts"].tap()
-//        app.navigationBars["Transactions"].buttons["Add"].tap()
-//        app.tables["v"].staticTexts["from"].tap()
+        app.buttons[account.type].tap()
+        app.tables["v"].cells.containing(.staticText, identifier: account.name).element.longSwipe(.left)
+        let result = !app.tables["v"].cells.containing(.staticText, identifier: account.name).element.waitForExistence(timeout: 2)
+        app.tabBars.buttons["Transactions"].tap()
+        return result
+    }
+
+    private func deleteTroughTransaction(_ account: Account) -> Bool {
+        app.navigationBars["Transactions"].buttons["Add"].tap()
+        app.tables["v"].staticTexts["from"].tap()
         app.buttons[account.type].tap()
         app.tables["v"].cells.containing(.staticText, identifier: account.name).element.longSwipe(.left)
         let result = !app.tables["v"].cells.containing(.staticText, identifier: account.name).element.waitForExistence(timeout: 2)
@@ -284,6 +301,18 @@ internal class SimFinUITests: XCTestCase {
         return check(id: "from", value: "from: \(from.name)") &&
             check(id: "to", value: "to: \(to.name)") &&
             check(id: "amount", value: "\(amount)")
+    }
+    private func changeTransaction(amount: Int) -> Bool {
+        app.tables["v"].cells["cell_0"].tap()
+        app.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 4))
+        tap(String(amount))
+        app.navigationBars["Transaction Details"].buttons["Done"].tap()
+        if app.tables["v"].cells["cell_0"].waitForExistence(timeout: 5) {
+            return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "amount").label == "\(amount)"
+        } else {
+            return false
+        }
+//        return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "amount").label == "\(amount)"
     }
     private func check(_ accountValues: [(account: Account, value: Int)]) -> Bool {
         return accountValues.map { check($0.account, value: $0.value) }.filter { $0 }.count == accountValues.count

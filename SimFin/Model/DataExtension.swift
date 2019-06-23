@@ -3,19 +3,19 @@ import Foundation
 // MARK: - Add data objects
 extension Data {
     // MARK: add
-    func addAccount(_ name: String, type: AccountType) -> AccountId {
-        let id = self.id
-        let account = Account(id: id, name: name, type: type, amount: 0)
-        accounts[id] = account
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
-            if let err = err {
-                print(err)
-            } else {
-                print("Account successfully created")
-            }
-        }
-        return id
-    }
+//    func addAccount(_ name: String, type: AccountType) -> AccountId {
+//        let id = self.id
+//        let account = Account(id: id, name: name, type: type, amount: 0)
+//        accounts[id] = account
+//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
+//            if let err = err {
+//                print(err)
+//            } else {
+//                print("Account successfully created")
+//            }
+//        }
+//        return id
+//    }
     func add(_ account: Account, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
 //        accounts[id] = account
@@ -27,11 +27,11 @@ extension Data {
             }
         }
     }
-    func add(transaction: FinTransaction) -> FinTransactionId? {
+    func add(_ transaction: FinTransaction, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
         // FIXME: check with guard
         guard let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
-            return nil
+            return
         }
         let transaction = FinTransaction(id: id, from: from, to: to, amount: amount, description: transaction.description, date: transaction.date ?? Date())
         transactions[id] = transaction
@@ -42,7 +42,6 @@ extension Data {
         let toAmount = (accounts[to]?.amount ?? 0) + amount
         accounts[to]?.amount = toAmount
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true)
-        return id
     }
     func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
@@ -56,17 +55,23 @@ extension Data {
 
 // MARK: - Update data objects methods
 extension Data {
-    func updateAccount(id: String, name: String) {
-        print("implementation is needed")
+    func save(_ account: Account, completion: ((Error?) -> Void)? = nil) {
+//        FIXME: implementation needed
     }
-    func save(transaction: FinTransaction, completion: ((Error?) -> Void)? = nil) {
+    func save(_ transaction: FinTransaction, completion: ((Error?) -> Void)? = nil) {
         // FIXME: Add completion
         guard let id = transaction.id else {
-            _ = add(transaction: transaction)
+            _ = add(transaction)
             return
         }
-        delete(transactionWithId: id)
-        _ = add(transaction: transaction)
+        // FIXME: refactor logic - without delete of transaction
+        delete(transactionWithId: id) { [unowned self] err in
+            if let err = err {
+                print("LOG \(err.localizedDescription)")
+            } else {
+                _ = self.add(transaction)
+            }
+        }
     }
     func save(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) {
         // FIXME: change completion logic (after all)
@@ -76,23 +81,42 @@ extension Data {
         _ = add(rule, completion: completion)
         print(Data.shared.rules)
     }
-
-    // MARK: delete data objects
 }
+
+// MARK: delete data objects
 extension Data {
     func delete(transactionWithId id: String, completion: ((Error?) -> Void)? = nil) {
         guard let transaction = transactions[id], let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
             return
         }
-        transactions[id] = nil
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").delete()
+//        transactions[id] = nil
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").delete { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("LOG Transaction was deleted")
+                completion?(err)
+            }
+        }
         let fromAmount = (accounts[from]?.amount ?? 0) + amount
-        accounts[from]?.amount = fromAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true)
+//        accounts[from]?.amount = fromAmount
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("LOG from account was updated due to transaction delete")
+            }
+        }
 
         let toAmount = (accounts[to]?.amount ?? 0) - amount
-        accounts[to]?.amount = toAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true)
+//        accounts[to]?.amount = toAmount
+        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true) { err in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                print("LOG from account was updated due to transaction delete")
+            }
+        }
         // FIXME: add completion
         //        completion?()
     }
@@ -106,7 +130,7 @@ extension Data {
         }
     }
     func delete(ruleWithId id: RuleId, completion: ((Error?) -> Void)? = nil) {
-        rules[id] = nil
+//        rules[id] = nil
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").delete { err in
             completion?(err)
         }
@@ -115,48 +139,78 @@ extension Data {
 
 // MARK: - Setting listners
 extension Data {
-    func setListnerToAccount() {
-        let path = "users/\(Auth.auth().currentUser?.uid ?? "")/account"
-        print(path)
+    func setListners() {
+        setListnerToAccount()
+        setListnerToTransaction()
+        setListnerToRule()
+    }
+    private func setListnerToAccount() {
+        let path = "users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)"
         Firestore.firestore().collection(path).addSnapshotListener { [unowned self] snapshot, error in
             guard let snapshot = snapshot else {
                 print("Error fetching snapshots: \(error?.localizedDescription ?? "")")
                 return
             }
             snapshot.documentChanges.forEach { diff in
-                if diff.type == .added {
-                    self.accounts[diff.document.documentID] = Account(diff.document.data())
-                }
-                if diff.type == .modified {
-                    print("Modified account: \(diff.document.data())")
-                    // FIXME: Implementation needed
+                if diff.type == .added || diff.type == .modified {
+                    let data = diff.document.data().merging([Account.fields.id: diff.document.documentID]) { _, new in new }
+                    self.accounts[diff.document.documentID] = Account(data)
                 }
                 if diff.type == .removed {
                     self.accounts[diff.document.documentID] = nil
                 }
             }
             TabBarController.shared.reload()
-            print(snapshot)
         }
-
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")").addSnapshotListener { snapshot, error in
+    }
+    private func setListnerToTransaction() {
+        let path = "users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)"
+        Firestore.firestore().collection(path).addSnapshotListener { [unowned self] snapshot, error in
             guard let snapshot = snapshot else {
                 print("Error fetching snapshots: \(error?.localizedDescription ?? "")")
                 return
             }
-            print(snapshot)
-//            snapshot.doc
-//            snapshot.documentChanges.forEach { diff in
-//                if (diff.type == .added) {
-//                    print("New city: \(diff.document.data())")
-//                }
-//                if (diff.type == .modified) {
-//                    print("Modified city: \(diff.document.data())")
-//                }
-//                if (diff.type == .removed) {
-//                    print("Removed city: \(diff.document.data())")
-//                }
-//            }
+            snapshot.documentChanges.forEach { diff in
+                if diff.type == .added || diff.type == .modified {
+                    let data = diff.document.data().merging([FinTransaction.fields.id: diff.document.documentID]) { _, new in new }
+                    self.transactions[diff.document.documentID] = FinTransaction(data)
+                }
+                if diff.type == .removed {
+                    self.transactions[diff.document.documentID] = nil
+                }
+            }
+            TabBarController.shared.reload()
+        }
+    }
+    private func setListnerToRule() {
+        let path = "users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)"
+        Firestore.firestore().collection(path).addSnapshotListener { [unowned self] snapshot, error in
+            guard let snapshot = snapshot else {
+                print("Error fetching snapshots: \(error?.localizedDescription ?? "")")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                if diff.type == .added || diff.type == .modified {
+                    // FIXME: replace with reference to field name
+//                    let dictionary = ["a": 1, "b": 2]
+//                    let newKeyValues = ["a": 3, "b": 4]
+//
+//                    let keepingCurrent = dictionary.merging(newKeyValues) { (current, _) in current }
+//                    // ["b": 2, "a": 1]
+//
+//                    let replacingCurrent = dictionary.merging(newKeyValues) { (_, new) in new }
+//                    let data = diff.document.data().merging(["id" : diff.document.documentID], uniquingKeysWith: { (x, y) -> Any in
+//                        return x
+//                    })
+                    let data = diff.document.data().merging([Rule.fields.id: diff.document.documentID]) { _, new in new }
+                    self.rules[diff.document.documentID] = Rule(data)
+                    print(data)
+                }
+                if diff.type == .removed {
+                    self.rules[diff.document.documentID] = nil
+                }
+            }
+            TabBarController.shared.reload()
         }
     }
 }

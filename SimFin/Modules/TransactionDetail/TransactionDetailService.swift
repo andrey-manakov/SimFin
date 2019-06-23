@@ -5,7 +5,7 @@ internal class TransactionDetailService: ClassService {
             print("Failed to save transaction - nil input")
             return
         }
-        data.save(transaction: transaction) { err in
+        data.save(transaction) { err in
             if let err = err {
                 print(err.localizedDescription)
             } else {

@@ -3,9 +3,11 @@ import Foundation
 /// Service class for `TransactionListVC`
 internal final class TransactionListService: ClassService {
     func getData() -> DataModelProtocol {
+        print(data.transactions)
         let transactions = data.transactions.sorted { (first: (key: FinTransactionId, value: FinTransaction), second: (key: FinTransactionId, value: FinTransaction)) -> Bool in
             first.value.date ?? Date() > second.value.date ?? Date()
         }
+        print(transactions)
         let rows = transactions.map { args -> DataModelRow in
             let (transactionId, transaction) = args
             return DataModelRow(id: transactionId, texts: [
@@ -14,6 +16,7 @@ internal final class TransactionListService: ClassService {
                 .down: data.accounts[transaction.to ?? ""]?.name, // data.getAccountName(id: transaction.to),
                 .right: "\(transaction.amount ?? 0)"])
         }
+        print(rows)
 //        let rows = data.transactions.map { args -> DataModelRow in
 //            let (transactionId, transaction) = args
 //            return DataModelRow(id: transactionId, texts: [

@@ -60,7 +60,7 @@ internal final class LoginVC: ViewController {
                 self.present(TabBarController.shared)
                 self.service.loadData()
                 // FIXME: Remove direct access to Data
-                Data.shared.setListnerToAccount()
+                Data.shared.setListners()
             } else {
                 print("User is nil")
             }
