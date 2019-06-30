@@ -16,7 +16,7 @@ internal class SimFinUITests: XCTestCase {
     private let amounts = (0..<SimFinUITests.randomCount).map { _ in Int.random(in: 0 ..< 1_000) }
     private let accounts: [Account] = (0..<SimFinUITests.randomCount).map { _ in
         (String((0..<Int.random(in: 1 ..< 6)).map { _ in "abcdefghijklmnopqrstuvwxyz".randomElement() ?? "x" }),
-        SimFinUITests.AccountType.allCases.randomElement()!.rawValue)
+         SimFinUITests.AccountType.allCases.randomElement()!.rawValue)
     }
     private lazy var transactions: [Transaction] = [
         (from: self.accounts[0], to: self.accounts[1], amount: self.amounts[0]),
@@ -48,27 +48,45 @@ internal class SimFinUITests: XCTestCase {
             self.create(self.accounts[0]) && self.delete(self.accounts[0])
         })
     }
+    internal func testDeleteAccountAndRelatedTransactions() {
+        XCTAssert(self.perform {
+            create(transactions[0]) &&
+                delete(accounts[0]) &&
+                checkNoTransaction() &&
+                check(accounts[1], value: 0) &&
+                delete(accounts[1])
+        })
+    }
     internal func testCreateTransaction() {
         XCTAssert(self.perform {
             create(transactions[0]) &&
-            check([(account: accounts[0], value: -amounts[0]), (account: accounts[1], value: amounts[0])]) &&
-            delete(Array(accounts[..<2]))
+                check([(account: accounts[0], value: -amounts[0]), (account: accounts[1], value: amounts[0])]) &&
+                delete(Array(accounts[..<2]))
+        })
+    }
+    internal func testCreateAndDeleteTransaction() {
+        XCTAssert(self.perform {
+            create(transactions[0]) &&
+                check([(account: accounts[0], value: -amounts[0]), (account: accounts[1], value: amounts[0])]) &&
+                deleteLastTransaction() &&
+                check([(account: accounts[0], value: 0), (account: accounts[1], value: 0)]) &&
+                delete(Array(accounts[..<2]))
         })
     }
     internal func testChangeTransactionAmount() {
         XCTAssert(self.perform {
             create(transactions[0]) &&
-            changeTransaction(amount: amounts[1]) &&
-            check([(account: accounts[0], value: -amounts[1]), (account: accounts[1], value: amounts[1])]) &&
-            delete(Array(accounts[..<2]))
+                changeTransaction(amount: amounts[1]) &&
+                check([(account: accounts[0], value: -amounts[1]), (account: accounts[1], value: amounts[1])]) &&
+                delete(Array(accounts[..<2]))
         })
     }
     internal func testCreateRule() {
         XCTAssert(self.perform {
             create(rules[0]) &&
                 // FIXME: check dates and repeat
-//            check([(account: accounts[0], value: -amounts[0]), (account: accounts[1], value: amounts[0])]) &&
-            delete(Array(accounts[..<2]))
+                //            check([(account: accounts[0], value: -amounts[0]), (account: accounts[1], value: amounts[0])]) &&
+                delete(Array(accounts[..<2]))
         })
     }
     internal func testMain() {
@@ -138,7 +156,6 @@ internal class SimFinUITests: XCTestCase {
             check(id: "to", value: "to: \(rule.transaction.to.name)") &&
             check(id: "amount", value: "\(rule.transaction.amount)")
     }
-
     private func create(_ account: Account) -> Bool {
         app.tabBars.buttons["Accounts"].tap()
         app.navigationBars["Accounts"].buttons["Add"].tap()
@@ -153,11 +170,9 @@ internal class SimFinUITests: XCTestCase {
         app.tabBars.buttons["Transactions"].tap()
         return testResult
     }
-
     private func create(_ transactions: [Transaction]) -> Bool {
         return transactions.map { create($0) }.filter { $0 }.count == transactions.count
     }
-
     private func create(_ transaction: Transaction) -> Bool {
         app.navigationBars["Transactions"].buttons["Add"].tap()
         tap(String(transaction.amount))
@@ -166,10 +181,15 @@ internal class SimFinUITests: XCTestCase {
         app.tables["v"].staticTexts["to"].tap()
         XCTAssert(addAndTap(account: transaction.to))
         app.navigationBars["Transaction Details"].buttons["Done"].tap()
+        let cell = app.tables["v"].cells["cell_0"]
         func check(id: String, value: String) -> Bool {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: id).label == value
         }
         // FIXME: check date
+        sleep(5)
+        print(check(id: "from", value: "from: \(transaction.from.name)"))
+        print(check(id: "to", value: "to: \(transaction.to.name)"))
+        print(check(id: "amount", value: "\(transaction.amount)"))
         return check(id: "from", value: "from: \(transaction.from.name)") &&
             check(id: "to", value: "to: \(transaction.to.name)") &&
             check(id: "amount", value: "\(transaction.amount)")
@@ -185,7 +205,6 @@ internal class SimFinUITests: XCTestCase {
         }
         return app.staticTexts["CAPITAL"].exists
     }
-
     private func logIn() -> Bool {
         guard app.staticTexts["CAPITAL"].exists else {
             return false
@@ -210,7 +229,11 @@ internal class SimFinUITests: XCTestCase {
         app.tabBars.buttons["Transactions"].tap()
         return result
     }
-
+    private func deleteLastTransaction() -> Bool {
+        // FIXME: delete specific transaction
+        app.tables["v"].cells["cell_0"].longSwipe(.left)
+        return true
+    }
     private func deleteTroughTransaction(_ account: Account) -> Bool {
         app.navigationBars["Transactions"].buttons["Add"].tap()
         app.tables["v"].staticTexts["from"].tap()
@@ -221,7 +244,10 @@ internal class SimFinUITests: XCTestCase {
         app.navigationBars.buttons.element(boundBy: 0).tap()
         return result
     }
-
+    private func checkNoTransaction() -> Bool {
+        app.tabBars.buttons["Transactions"].tap()
+        return !app.tables["v"].cells["cell_0"].exists
+    }
     private func addAndTap(account: Account) -> Bool {
         app.buttons[account.type].tap()
         if app.tables["v"].staticTexts[account.name].exists {
@@ -253,6 +279,8 @@ internal class SimFinUITests: XCTestCase {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: id).label == value
         }
         // FIXME: check date
+        sleep(3)
+        print(accounts)
         print(check(id: "from", value: "from: \(from.name)"))
         print(app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "from").label)
         print("from: \(from.name)")
@@ -297,6 +325,14 @@ internal class SimFinUITests: XCTestCase {
         func check(id: String, value: String) -> Bool {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: id).label == value
         }
+        print(check(id: "from", value: "from: \(from.name)"))
+        print(check(id: "to", value: "to: \(to.name)"))
+        print(check(id: "amount", value: "\(amount)"))
+        sleep(3)
+        print(check(id: "from", value: "from: \(from.name)"))
+        print(check(id: "to", value: "to: \(to.name)"))
+        print(check(id: "amount", value: "\(amount)"))
+
         // FIXME: check date
         return check(id: "from", value: "from: \(from.name)") &&
             check(id: "to", value: "to: \(to.name)") &&
@@ -307,12 +343,13 @@ internal class SimFinUITests: XCTestCase {
         app.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 4))
         tap(String(amount))
         app.navigationBars["Transaction Details"].buttons["Done"].tap()
+        sleep(3)
         if app.tables["v"].cells["cell_0"].waitForExistence(timeout: 5) {
             return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "amount").label == "\(amount)"
         } else {
             return false
         }
-//        return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "amount").label == "\(amount)"
+        //        return app.tables["v"].cells["cell_0"].staticTexts.element(matching: .staticText, identifier: "amount").label == "\(amount)"
     }
     private func check(_ accountValues: [(account: Account, value: Int)]) -> Bool {
         return accountValues.map { check($0.account, value: $0.value) }.filter { $0 }.count == accountValues.count

@@ -7,6 +7,7 @@ internal final class AccountDetailService: ClassService {
         }
         if let id = id {
             //          FIXME: implementation needed
+            print(id)
         } else {
             data.add(Account(id: nil, name: name, type: type, amount: 0)) { err, accountId in
                 if let err = err {

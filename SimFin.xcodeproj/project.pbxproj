@@ -108,7 +108,7 @@
 		C1A9E06822ACF0EC00A93676 /* RepeatModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E06722ACF0EC00A93676 /* RepeatModeVC.swift */; };
 		C1A9E06D22ACFD0700A93676 /* RepeatModeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9E06C22ACFD0700A93676 /* RepeatModeTableView.swift */; };
 		C1AB3B4722690B2500C50A69 /* AccountListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB3B4622690B2500C50A69 /* AccountListVC.swift */; };
-		C1C55CCA22837BAA002F56B1 /* FIRManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CC922837BAA002F56B1 /* FIRManagerProtocol.swift */; };
+		C1C55CCA22837BAA002F56B1 /* FIRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CC922837BAA002F56B1 /* FIRManager.swift */; };
 		C1C55CCC22837C03002F56B1 /* FIRAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */; };
 		C1C55CCE22837C2E002F56B1 /* FIRFinTransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CCD22837C2E002F56B1 /* FIRFinTransactionManager.swift */; };
 		C1C55CD022841E09002F56B1 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C55CCF22841E09002F56B1 /* UIApplicationExtension.swift */; };
@@ -250,7 +250,7 @@
 		C1A9E06722ACF0EC00A93676 /* RepeatModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatModeVC.swift; sourceTree = "<group>"; };
 		C1A9E06C22ACFD0700A93676 /* RepeatModeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatModeTableView.swift; sourceTree = "<group>"; };
 		C1AB3B4622690B2500C50A69 /* AccountListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListVC.swift; sourceTree = "<group>"; };
-		C1C55CC922837BAA002F56B1 /* FIRManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRManagerProtocol.swift; sourceTree = "<group>"; };
+		C1C55CC922837BAA002F56B1 /* FIRManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRManager.swift; sourceTree = "<group>"; };
 		C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRAccountManager.swift; sourceTree = "<group>"; };
 		C1C55CCD22837C2E002F56B1 /* FIRFinTransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIRFinTransactionManager.swift; sourceTree = "<group>"; };
 		C1C55CCF22841E09002F56B1 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
@@ -304,6 +304,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C10F75FC22C686080062BE95 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C1920BE9226B6758000C597B /* DataExtension.swift */,
+				C1920BEB226B6F4B000C597B /* DataProtocol.swift */,
+				C1CB03772263244A0041EB3D /* Data.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		C1172F3222A23821008B0D58 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,6 +407,7 @@
 				C11B161F228350760053B365 /* Bridging-Header.h */,
 				C11B161D22834F910053B365 /* GoogleService-Info.plist */,
 				C1659A032261BC5C00B964D3 /* AppDelegate.swift */,
+				C10F75FC22C686080062BE95 /* Data */,
 				C16D7C142266D3D800DB8AC6 /* Model */,
 				C1CB037022630FFB0041EB3D /* Modules */,
 				C1CB0374226315E50041EB3D /* Views */,
@@ -477,9 +488,6 @@
 				C1920BE4226B64AC000C597B /* Account.swift */,
 				C1920BEF226C5721000C597B /* AccountType.swift */,
 				C10EDC3E22773CB0006FA7E7 /* AccountTypeExtension.swift */,
-				C1920BE9226B6758000C597B /* DataExtension.swift */,
-				C1920BEB226B6F4B000C597B /* DataProtocol.swift */,
-				C1CB03772263244A0041EB3D /* Data.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -544,17 +552,17 @@
 		C19D6CC622836072005549EA /* FireStore */ = {
 			isa = PBXGroup;
 			children = (
+				C19D6CCA22836072005549EA /* FireStoreData.swift */,
+				C1C55CC922837BAA002F56B1 /* FIRManager.swift */,
+				C1C55CCD22837C2E002F56B1 /* FIRFinTransactionManager.swift */,
+				C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */,
+				C19D6CCC22836072005549EA /* FireStoreCompletionProtocol.swift */,
+				C19D6CD5228361FF005549EA /* DataObjectProtocol.swift */,
 				C19D6CC722836072005549EA /* DataObjectType.swift */,
 				C19D6CC822836072005549EA /* FIRAuth.swift */,
 				C19D6CC922836072005549EA /* FIRDataProtocol.swift */,
-				C19D6CCA22836072005549EA /* FireStoreData.swift */,
 				C19D6CCB22836072005549EA /* FireStoreGettersProtocol.swift */,
 				C19D6CD322836158005549EA /* FireStoreDataExtension.swift */,
-				C19D6CD5228361FF005549EA /* DataObjectProtocol.swift */,
-				C19D6CCC22836072005549EA /* FireStoreCompletionProtocol.swift */,
-				C1C55CC922837BAA002F56B1 /* FIRManagerProtocol.swift */,
-				C1C55CCB22837C03002F56B1 /* FIRAccountManager.swift */,
-				C1C55CCD22837C2E002F56B1 /* FIRFinTransactionManager.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -860,7 +868,7 @@
 				C1A9E06822ACF0EC00A93676 /* RepeatModeVC.swift in Sources */,
 				C19D6CCF22836072005549EA /* FIRDataProtocol.swift in Sources */,
 				C124347222AABFA90056BB62 /* RuleCell.swift in Sources */,
-				C1C55CCA22837BAA002F56B1 /* FIRManagerProtocol.swift in Sources */,
+				C1C55CCA22837BAA002F56B1 /* FIRManager.swift in Sources */,
 				C1920BDB226B5D2F000C597B /* TransactionDetailVCExtension.swift in Sources */,
 				C147928B228143BD00C366D5 /* TableViewWithSwipe.swift in Sources */,
 				C124346622AABAA60056BB62 /* RepeatMode.swift in Sources */,

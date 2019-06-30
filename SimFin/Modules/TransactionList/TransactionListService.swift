@@ -32,7 +32,7 @@ internal final class TransactionListService: ClassService {
         guard let id = row?.id else {
             fatalError("Nil Id")
         }
-        Data.shared.delete(transactionWithId: id, completion: completion)
+        Data.shared.delete(FinTransaction(["id": id]), completion: completion)
     }
 
     func logOut(completion: ((Error?) -> Void)? = nil) {

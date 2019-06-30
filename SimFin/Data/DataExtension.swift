@@ -2,21 +2,7 @@ import Foundation
 
 // MARK: - Add data objects
 extension Data {
-    // MARK: add
-//    func addAccount(_ name: String, type: AccountType) -> AccountId {
-//        let id = self.id
-//        let account = Account(id: id, name: name, type: type, amount: 0)
-//        accounts[id] = account
-//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
-//            if let err = err {
-//                print(err)
-//            } else {
-//                print("Account successfully created")
-//            }
-//        }
-//        return id
-//    }
-    func add(_ account: Account, completion: ((Error?, RuleId?) -> Void)? = nil) {
+    func add(_ account: Account, completion: ((Error?, AccountId?) -> Void)? = nil) {
         let id = self.id
 //        accounts[id] = account
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").setData(account.data) { err in
@@ -27,21 +13,17 @@ extension Data {
             }
         }
     }
-    func add(_ transaction: FinTransaction, completion: ((Error?, RuleId?) -> Void)? = nil) {
+    func add(_ transaction: FinTransaction, completion: ((Error?, FinTransactionId?) -> Void)? = nil) {
         let id = self.id
-        // FIXME: check with guard
         guard let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
             return
         }
         let transaction = FinTransaction(id: id, from: from, to: to, amount: amount, description: transaction.description, date: transaction.date ?? Date())
-        transactions[id] = transaction
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").setData(transaction.data)
-        let fromAmount = (accounts[from]?.amount ?? 0) - amount
-        accounts[from]?.amount = fromAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true)
-        let toAmount = (accounts[to]?.amount ?? 0) + amount
-        accounts[to]?.amount = toAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true)
+
+        _ = FIRFinTransactionManager(.create, transaction) { err in
+            completion?(err, id)
+            print("LOG FirManager created transaction")
+        }
     }
     func add(_ rule: Rule, completion: ((Error?, RuleId?) -> Void)? = nil) {
         let id = self.id
@@ -65,7 +47,7 @@ extension Data {
             return
         }
         // FIXME: refactor logic - without delete of transaction
-        delete(transactionWithId: id) { [unowned self] err in
+        delete(transaction) { [unowned self] err in
             if let err = err {
                 print("LOG \(err.localizedDescription)")
             } else {
@@ -85,50 +67,63 @@ extension Data {
 
 // MARK: delete data objects
 extension Data {
-    func delete(transactionWithId id: String, completion: ((Error?) -> Void)? = nil) {
-        guard let transaction = transactions[id], let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
-            return
-        }
-//        transactions[id] = nil
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").delete { err in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                print("LOG Transaction was deleted")
-                completion?(err)
-            }
-        }
-        let fromAmount = (accounts[from]?.amount ?? 0) + amount
-//        accounts[from]?.amount = fromAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true) { err in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                print("LOG from account was updated due to transaction delete")
-            }
-        }
-
-        let toAmount = (accounts[to]?.amount ?? 0) - amount
-//        accounts[to]?.amount = toAmount
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true) { err in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                print("LOG from account was updated due to transaction delete")
-            }
-        }
-        // FIXME: add completion
-        //        completion?()
-    }
-    func delete(accountWithId id: AccountId, completion: ((Error?) -> Void)?) {
-        // TODO: consider uncommenting to ensure immidiate update
-        //        accounts[id] = nil
-        _ = transactions.filter { $0.value.from == id || $0.value.to == id }.map { delete(transactionWithId: $0.key) }
-        _ = rules.filter { $0.value.from == id || $0.value.to == id }.map { delete(ruleWithId: $0.key) }
-        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").delete { err in
+    func delete(_ transaction: FinTransaction, completion: ((Error?) -> Void)? = nil) {
+        _ = FIRFinTransactionManager(.delete, transaction) { err in
             completion?(err)
+            print("LOG transaction deleted")
+        } 
+//        guard let id = transaction.id else {
+//            return
+//        }
+//        guard let transaction = transactions[id], let from = transaction.from, let to = transaction.to, let amount = transaction.amount else {
+//            return
+//        }
+////        transactions[id] = nil
+//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.transaction.rawValue)/\(id)").delete { err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            } else {
+//                print("LOG Transaction was deleted")
+//                completion?(err)
+//            }
+//        }
+//        let fromAmount = (accounts[from]?.amount ?? 0) + amount
+////        accounts[from]?.amount = fromAmount
+//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(from)").setData([Account.fields.amount: fromAmount], merge: true) { err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            } else {
+//                print("LOG from account was updated due to transaction delete")
+//            }
+//        }
+//
+//        let toAmount = (accounts[to]?.amount ?? 0) - amount
+////        accounts[to]?.amount = toAmount
+//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(to)").setData([Account.fields.amount: toAmount], merge: true) { err in
+//            if let err = err {
+//                print(err.localizedDescription)
+//            } else {
+//                print("LOG from account was updated due to transaction delete")
+//            }
+//        }
+//        // FIXME: add completion
+//        //        completion?()
+    }
+    func delete(_ account: Account, completion: ((Error?) -> Void)? = nil) {
+        _ = FIRAccountManager(.delete, account) { err in
+            completion?(err)
+            print("LOG account deleted")
         }
     }
+//    func delete(accountWithId id: AccountId, completion: ((Error?) -> Void)?) {
+//        // TODO: consider uncommenting to ensure immidiate update
+//        //        accounts[id] = nil
+//        _ = transactions.filter { $0.value.from == id || $0.value.to == id }.map { delete(FinTransaction(["id": $0.key])) }
+//        _ = rules.filter { $0.value.from == id || $0.value.to == id }.map { delete(ruleWithId: $0.key) }
+//        Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.account.rawValue)/\(id)").delete { err in
+//            completion?(err)
+//        }
+//    }
     func delete(ruleWithId id: RuleId, completion: ((Error?) -> Void)? = nil) {
 //        rules[id] = nil
         Firestore.firestore().document("users/\(Auth.auth().currentUser?.uid ?? "")/\(DataObjectType.rule.rawValue)/\(id)").delete { err in
@@ -212,5 +207,24 @@ extension Data {
             }
             TabBarController.shared.reload()
         }
+    }
+}
+
+// MARK: - Sign In, Sign Out
+extension Data {
+    internal func signOut(_ completion: ((Error?) -> Void)? = nil) {
+        fireAuth?.signOutUser(completion)
+    }
+
+    internal func signInUser(withEmail email: String, password pwd: String, completion: ((Error?) -> Void)?) {
+        fireAuth?.signInUser(withEmail: email, password: pwd, completion: completion)
+    }
+
+    internal func signUpUser(withEmail email: String, password pwd: String, completion: ((Error?) -> Void)?) {
+        fireAuth?.createUser(withEmail: email, password: pwd, completion: completion)
+    }
+
+    internal func deleteUser(completion: ((Error?) -> Void)?) {
+        fireAuth?.deleteUser(completion)
     }
 }

@@ -30,10 +30,10 @@ internal final class LoginService: ClassService {
                 Data.shared.accounts = accounts
                 UIApplication.topViewController()?.reload()
             }
-            FIRFinTransactionManager.shared.loadAll { transactions in
-                Data.shared.transactions = transactions
-                UIApplication.topViewController()?.reload()
-            }
+//            FIRFinTransactionManager.shared.loadAll { transactions in
+//                Data.shared.transactions = transactions
+//                UIApplication.topViewController()?.reload()
+//            }
         }
         Data.shared.signInUser(withEmail: lgn, password: pwd, completion: newCompletion)
     }
@@ -65,9 +65,9 @@ internal final class LoginService: ClassService {
             Data.shared.accounts = accounts
             UIApplication.topViewController()?.reload()
         }
-        FIRFinTransactionManager.shared.loadAll { transactions in
-            Data.shared.transactions = transactions
-            UIApplication.topViewController()?.reload()
-        }
+//        FIRFinTransactionManager.shared.loadAll { transactions in
+//            Data.shared.transactions = transactions
+//            UIApplication.topViewController()?.reload()
+//        }
     }
 }

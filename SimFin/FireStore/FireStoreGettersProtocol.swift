@@ -37,10 +37,10 @@ extension FireStoreGettersProtocol {
             errorPointer?.pointee = fetchError
             return nil
         }
-        guard let data = doc.data() else {
+        guard var data = doc.data() else {
             return nil
         }
-
+        data["id"] = id
         switch dataObject {
         case .account:
             return Account(data)
@@ -51,6 +51,16 @@ extension FireStoreGettersProtocol {
         case .rule:
             return Rule(data)
         }
+    }
+
+    internal func get(_ account: Account, for fsTransaction: Transaction, with errorPointer: NSErrorPointer = nil) -> Account? {
+        print(account.id)
+        print(account)
+        return get(.account, withId: account.id, for: fsTransaction, with: errorPointer) as? Account
+    }
+
+    internal func get(_ transaction: FinTransaction, for fsTransaction: Transaction, with errorPointer: NSErrorPointer = nil) -> FinTransaction? {
+        return get(.transaction, withId: transaction.id, for: fsTransaction, with: errorPointer) as? FinTransaction
     }
 
     internal func getAccount(

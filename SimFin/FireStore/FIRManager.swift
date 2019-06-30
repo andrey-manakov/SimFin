@@ -9,8 +9,11 @@ internal class FIRManager {
         }
         return Firestore.firestore().document("users/\(user)")
     }
-    internal let capitalAccountName = "capital"
-    internal var capitalDoc: DocumentReference? {
-        return ref?.collection(DataObjectType.account.rawValue).document(capitalAccountName)
+
+    deinit {
+        print("\(type(of: self)) deinit")
+    }
+    enum Action {
+        case create, delete//, loadAll
     }
 }
